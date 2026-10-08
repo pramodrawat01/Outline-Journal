@@ -1,0 +1,126 @@
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { PenLine } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import {
+  Compass,
+} from "lucide-react";
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const { user, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isProfilePage = location.pathname === "/profile";
+
+  const handleLogout = async () => {
+    await logout();
+    setShowLogoutConfirm(false);
+    navigate("/signup");
+  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 80);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <>
+    <motion.header
+      animate={{
+        width: scrolled ? "75%" : "100%",
+        y: scrolled ? 20 : 0,
+      }}
+      transition={{
+        duration: 0.35,
+        ease: "easeInOut",
+      }}
+      className={`left-1/2 -translate-x-1/2 z-50
+      ${
+        scrolled
+          ? "fixed top-0 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-xl shadow-2xl"
+          : "absolute top-0 bg-transparent"
+      }`}
+    >
+      <nav className="max-w-7xl mx-auto flex items-center justify-between px-8 py-5">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="text-emerald-400 text-xl">✦</span>
+          <span className="font-semibold text-lg">Outline</span>
+        </Link>
+        
+        <div className="flex gap-4">
+          <button className="border-1 text-white border-emerald-500 hover:bg-white/5 cursor-pointer rounded-full flex items-center gap-2 text-sm font-medium px-5 py-2.5 text-black">
+                  <Compass size={16} />
+                  Explore docs
+                </button>
+          <div className="hidden md:flex items-center gap-4 text-sm text-gray-300">
+            {isProfilePage ? (
+              <button
+                onClick={() => setShowLogoutConfirm(true)}
+                className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 transition-colors rounded-full text-sm font-medium px-5 py-2.5 text-white"
+              >
+                <FaSignOutAlt size={14} />
+                Log out
+              </button>
+            ) : (
+              <>
+                {user ? (
+                  <Link to="/profile" className="flex items-center gap-2">
+                    <FaUserCircle className="text-3xl text-emerald-400" />
+                  </Link>
+                ) : (
+                  <Link
+                    to="/signup"
+                    className="relative font-bold text-gray-300 hover:text-white transition-colors before:absolute before:left-0 before:-bottom-1 before:h-[2px] before:w-full before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-emerald-400 before:to-cyan-400 before:transition-transform before:duration-300 hover:before:scale-x-100"
+                  >
+                    Login <span className="text-emerald-400">/</span> Signup
+                  </Link>
+                )}
+
+                <button className="bg-emerald-500 hover:bg-emerald-400 rounded-full flex items-center gap-2 text-sm font-medium px-5 py-2.5 text-black">
+                  <PenLine size={16} />
+                  Start Writing
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      
+    </motion.header>
+
+    {showLogoutConfirm && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+          <div className="bg-[#111511] border border-white/10 rounded-2xl p-6 w-full max-w-sm text-center">
+            <h3 className="text-lg font-semibold mb-2">Log out of Outline?</h3>
+            <p className="text-gray-400 text-sm mb-6">
+              You'll need to log back in to keep writing your entries.
+            </p>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 transition-colors rounded-full text-sm font-medium py-2.5"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex-1 bg-emerald-500 hover:bg-emerald-400 transition-colors text-black rounded-full text-sm font-medium py-2.5"
+              >
+                Log out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
