@@ -3,7 +3,7 @@ import React from "react";
 const testimonials = [
   {
     quote:
-      "I tried keeping a private notebook for years and never stuck with it. Something about knowing a few people might read it keeps me writing every week.",
+      "I tried keeping a private diary for years and never stuck with it. Something about knowing a few people might read it keeps me writing every week.",
     name: "Meera Kapoor",
     role: "Documenting a career change",
     img: "https://i.pravatar.cc/80?img=32",

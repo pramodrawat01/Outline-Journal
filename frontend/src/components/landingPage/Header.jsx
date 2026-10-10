@@ -23,7 +23,7 @@ export default function Header() {
   };
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -34,33 +34,38 @@ export default function Header() {
   return (
     <>
     <motion.header
+     initial={{ y: -20, opacity: 0 }}
       animate={{
-        width: scrolled ? "75%" : "100%",
-        y: scrolled ? 20 : 0,
+        width: scrolled ? "95%" : "100%",
+        y: scrolled ? 5 : 0,
+        opacity : 1,
       }}
       transition={{
-        duration: 0.35,
-        ease: "easeInOut",
+        y: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
+        opacity: { duration: 0.4, ease: "easeOut" },
+        animate : { duration : 0.35 , ease : "easeOut"}
       }}
-      className={`left-1/2 -translate-x-1/2 z-50
+      className={`left-1/2 -translate-x-1/2 z-50 w-full 
       ${
         scrolled
-          ? "fixed top-0 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-xl shadow-2xl"
+          ? "fixed top-0 w-[95%] rounded-2xl border border-white/10 bg-black/70 backdrop-blur-xl shadow-2xl"
           : "absolute top-0 bg-transparent"
       }`}
     >
-      <nav className="max-w-7xl mx-auto flex items-center justify-between px-8 py-5">
+      <nav className="max-w-7xl mx-auto flex items-center justify-between px-2 sm:px-8 py-1 sm:py-4">
         <Link to="/" className="flex items-center gap-2">
           <span className="text-emerald-400 text-xl">✦</span>
           <span className="font-semibold text-lg">Outline</span>
         </Link>
         
-        <div className="flex gap-4">
-          <button className="border-1 text-white border-emerald-500 hover:bg-white/5 cursor-pointer rounded-full flex items-center gap-2 text-sm font-medium px-5 py-2.5 text-black">
-                  <Compass size={16} />
-                  Explore docs
-                </button>
-          <div className="hidden md:flex items-center gap-4 text-sm text-gray-300">
+        <div className="flex gap-3">
+          <Link to="/blogs">
+            <button className="flex items-center gap-2 rounded-full border-b px-3 py-2.5 text-sm font-medium text-white transition hover:bg-white/5 sm:border sm:border-emerald-500 sm:px-5">
+              <Compass size={18} />
+              <span className="hidden sm:inline">Explore blogs</span>
+            </button>
+          </Link>
+          <div className="flex items-center gap-4 text-sm text-gray-300">
             {isProfilePage ? (
               <button
                 onClick={() => setShowLogoutConfirm(true)}
@@ -84,7 +89,7 @@ export default function Header() {
                   </Link>
                 )}
 
-                <button className="bg-emerald-500 hover:bg-emerald-400 rounded-full flex items-center gap-2 text-sm font-medium px-5 py-2.5 text-black">
+                <button className="hidden  md:flex bg-emerald-500 hover:bg-emerald-400 rounded-full items-center gap-2 text-sm font-medium px-5 py-2.5 text-black">
                   <PenLine size={16} />
                   Start Writing
                 </button>

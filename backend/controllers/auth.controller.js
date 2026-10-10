@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { generateTokenAndSetCookie } from "../utils/generateToken.js";
+import { sanitize } from "../utils/sanatizeUser.js";
 
 /* --------------------------- SIGNUP --------------------------- */
 export async function signup(req, res) {
@@ -86,12 +87,13 @@ export async function login(req, res) {
     generateTokenAndSetCookie(res, user._id);
 
     return res.status(200).json({
-      user: {
-        id: user._id,
-        fullName: user.fullName,
-        username: user.username,
-        email: user.email,
-      },
+      user: sanitize(user)
+      // {
+      //   id: user._id,
+      //   fullName: user.fullName,
+      //   username: user.username,
+      //   email: user.email,
+      // },
     });
   } catch (error) {
     console.error("Login error:", error.message);
@@ -108,5 +110,5 @@ export async function logout(req, res) {
 /* ----------------------------- ME ----------------------------- */
 // Returns the currently logged-in user; used on app load to restore a session.
 export async function getMe(req, res) {
-  return res.status(200).json({ user: req.user });
+  return res.status(200).json({ user: sanitize(req.user)  });
 }

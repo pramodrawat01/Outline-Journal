@@ -23,6 +23,11 @@ import {
   Redo2,
 } from "lucide-react";
 
+ import { createBlog } from "../services/blogService";
+ import { createPersonalJournal } from "../services/journalService";
+ import { todayStr } from "../utils/challengeUtils";
+ import Segmented from "../components/onboarding/Segmented";
+
 const lowlight = createLowlight(common);
 
 /* ---------------------------------------------------------- */
@@ -48,14 +53,18 @@ function ToolbarButton({ onClick, active, disabled, title, children }) {
 /* ---------------------------------------------------------- */
 
 export default function CreateBlog() {
+
   const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef(null);
-
+  
   // Came from the CreateEntryModal — falls back gracefully if visited directly
   const { title: initialTitle = "", entryType = "blog" } = location.state || {};
   const [title, setTitle] = useState(initialTitle);
-
+  const [visibility, setVisibility] = useState(entryType === "journal" ? "private" : "public");
+const [publishing, setPublishing] = useState(false);
+const [error, setError] = useState("");
+  
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -94,15 +103,37 @@ export default function CreateBlog() {
     [editor]
   );
 
-  const handlePublish = () => {
-    const payload = {
-      title,
-      entryType,
-      content: editor?.getHTML(),
-    };
-    // TODO: POST this to your backend once a /api/entries endpoint exists
-    console.log("Publishing entry:", payload);
-    alert("Publish endpoint isn't built yet — check the console for the payload.");
+  // const handlePublish = () => {
+  //   const payload = {
+  //     title,
+  //     entryType,
+  //     content: editor?.getHTML(),
+  //   };
+  //   // TODO: POST this to your backend once a /api/entries endpoint exists
+  //   console.log("Publishing entry:", payload);
+  //   alert("Publish endpoint isn't built yet — check the console for the payload.");
+  // };
+
+  const handlePublish = async () => {
+    if (editor.isEmpty && !title.trim()) {
+      setError("Write something before publishing.");
+      return;
+    }
+    setPublishing(true);
+    setError("");
+    try {
+      const content = editor.getJSON();
+      if (entryType === "journal") {
+        const j = await createPersonalJournal({ title, content, entryDate: todayStr(), visibility });
+        navigate(`/profile/journal/${j._id}`, { replace: true });
+      } else {
+        const b = await createBlog({ title, content, visibility });
+        navigate(`/profile/blogs/${b._id}`, { replace: true });
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Could not publish. Try again.");
+      setPublishing(false);
+    }
   };
 
   if (!editor) return null;
@@ -124,12 +155,29 @@ export default function CreateBlog() {
             {entryType === "journal" ? "Journal Entry" : "Blog Post"}
           </span>
 
-          <button
+          {/* <button
             onClick={handlePublish}
             className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-5 py-2 rounded-full"
           >
             Publish
-          </button>
+          </button> */}
+          <div className="flex items-center gap-3">
+            <Segmented
+              value={visibility}
+              onChange={setVisibility}
+              options={[
+                { value: "public", label: "Public" },
+                { value: "private", label: "Private" },
+              ]}
+            />
+            <button
+              onClick={handlePublish}
+              disabled={publishing}
+              className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 transition-colors text-black text-sm font-medium px-5 py-2 rounded-full"
+            >
+              {publishing ? "Publishing…" : "Publish"}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -231,6 +279,7 @@ export default function CreateBlog() {
 
       {/* title + editor body */}
       <div className="max-w-4xl mx-auto px-6 py-10">
+        {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
         <input
           type="text"
           value={title}

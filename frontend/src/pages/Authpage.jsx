@@ -424,7 +424,7 @@ function LoginFields() {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
       <div className="text-center mb-2">
-        <h2 className="text-2xl font-semibold mb-1">Welcome back</h2>
+        <h2 className="text-2xl font-semibold mb-1">Welcome back  Pramod#123@123</h2>
         <p className="text-gray-400 text-sm">Log in to keep writing your entries.</p>
       </div>
 
@@ -562,7 +562,7 @@ export default function AuthPage() {
         }}
       />
 
-      <a href="/" className="absolute top-6 left-6 md:top-8 md:left-8 z-20 flex items-center gap-2">
+      <a href="/" className="absolute left-6 top-8 md:left-8 z-20 flex items-center gap-2">
         <span className="text-emerald-400 text-xl">✦</span>
         <span className="font-semibold text-lg tracking-tight">Outline</span>
       </a>
@@ -594,7 +594,7 @@ export default function AuthPage() {
       </div>
 
       {/* MOBILE */}
-      <div className="md:hidden relative z-10 w-full max-w-sm">
+      <div className="md:hidden relative z-10 w-full max-w-sm p-4 bg-[#0d110d] rounded-2xl">
         <div className="flex bg-white/5 border border-white/10 rounded-full p-1 mb-8">
           <button onClick={() => setIsSignUp(false)} className={`flex-1 text-sm font-medium rounded-full py-2 transition-colors ${!isSignUp ? "bg-emerald-500 text-black" : "text-gray-400"}`}>Log in</button>
           <button onClick={() => setIsSignUp(true)} className={`flex-1 text-sm font-medium rounded-full py-2 transition-colors ${isSignUp ? "bg-emerald-500 text-black" : "text-gray-400"}`}>Sign up</button>

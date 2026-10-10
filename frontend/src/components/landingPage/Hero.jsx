@@ -1,16 +1,28 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import Header from "./Header";
-
+import { Link } from "react-router-dom";
 export default function Hero() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const gridSize = isMobile ? 36 : 56;
   return (
     <section className="relative">
+
       {/* grid background */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
+          backgroundSize:  `${gridSize}px ${gridSize}px`,
           maskImage:
             "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
           WebkitMaskImage:
@@ -37,15 +49,26 @@ export default function Hero() {
             key={i}
             className="absolute bg-white"
             style={{
-              top: b.row * 56,
-              left: b.col * 56,
-              width: 56,
-              height: 56,
+              top: b.row * gridSize,
+              left: b.col * gridSize,
+              width: gridSize,
+              height: gridSize,
               opacity: b.o,
             }}
           />
         ))}
       </div>
+
+      
+      {/* Black gradient from top to bottom */}
+        <div
+        className="absolute inset-0"
+        style={{
+            background:
+            "linear-gradient(to bottom, #0a0a0a 0%, rgba(10,10,10,0.65) 15%, rgba(10,10,10,0.2) 25%, transparent 100%)",
+        }}
+        />
+
 
       {/* green radial glow */}
       <div
@@ -78,12 +101,16 @@ export default function Hero() {
         </p>
 
         <div className="flex items-center gap-3">
-          <button className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-6 py-3 rounded-full">
-            Start your journal
-          </button>
-          <button className="bg-white/10 hover:bg-white/15 transition-colors text-white text-sm font-medium px-6 py-3 rounded-full border border-white/10">
-            Read journals
-          </button>
+          <Link to="/create-blog">
+            <button className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-6 py-3 rounded-full">
+              Start your journal
+            </button>
+          </Link>
+          <Link to="/blogs">
+            <button className="rounded-full border border-white/10 bg-[#202923] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#29352d]">
+              Read journals
+            </button>
+          </Link>
         </div>
       </div>
 

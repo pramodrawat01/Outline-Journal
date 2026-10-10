@@ -1,5 +1,5 @@
 import React from "react";
-import { UserPlus, NotebookPen, Share2 } from "lucide-react";
+import { UserPlus , Share2 } from "lucide-react";
 
 const steps = [
   {
@@ -11,7 +11,7 @@ const steps = [
   },
   {
     number: "02",
-    icon: NotebookPen,
+    icon: UserPlus,
     title: "Write your first entry",
     description:
       "Open the editor and write. No templates to fill in, no pressure to be polished — just get today's entry down.",

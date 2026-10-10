@@ -45,6 +45,20 @@ const userSchema = new mongoose.Schema(
         message: "You must agree to the Terms of Service and Privacy Policy",
       },
     },
+    profession: { type: String, trim: true, maxlength: 80 },
+    bio: { type: String, trim: true, maxlength: 280 },
+    avatarUrl: { type: String, default: '' },
+    interests: { type: [String], default: [] },
+    visibility: { type: String, enum: ['public', 'private'], default: 'public' },
+    preferences: {
+      defaultEntryVisibility: { type: String, enum: ['public', 'private'], default: 'private' },
+      weeklyGoal: { type: Number, min: 1, max: 7, default: 3 },
+    },
+    onboardingCompleted: { type: Boolean, default: false },
+    onboardingStep: { type: Number, default: 1 },
+     currentlyReading: { type: String, trim: true, maxlength: 80, default: '' },
+sideProject: { type: String, trim: true, maxlength: 80, default: '' },
+exploring: { type: String, trim: true, maxlength: 120, default: '' },
   },
   { timestamps: true }
 );

@@ -9,7 +9,7 @@ const WelcomeBanner = () => {
   return (
     <div className='mb-4'>
         <div className="bg-[#111511] border border-white/5 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
                 <span className="text-emerald-400">✦</span>
             </div>
@@ -21,14 +21,14 @@ const WelcomeBanner = () => {
                 Discover inspiring journals from writers worldwide
                 </h1>
             </div>
-            </div>
+          </div>
             <button
-            onClick={() => setShowCreateModal(true)}
-            className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-5 py-2.5 rounded-full shrink-0">
-            <Plus size={15} />
-            Write an entry
+              onClick={() => setShowCreateModal(true)}
+              className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-5 py-2.5 rounded-full shrink-0">
+              <Plus size={15} />
+              Write an entry
             </button>
-      </div>
+         </div>
       {showCreateModal && (
               <CreateEntryModal onClose={() => setShowCreateModal(false)} />
             )}

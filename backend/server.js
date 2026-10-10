@@ -4,7 +4,12 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { connectDB } from './config/db.js'
 import authRoutes from "./routes/auth.routes.js";
-
+import profileRoutes from './routes/profileRoutes.js'
+ import challengeRoutes from './routes/challengeRoutes.js';
+ import personalJournalRoutes from './routes/personalJournalRoutes.js'
+ import blogRoutes from './routes/blogRoutes.js';
+import diaryRoutes from './routes/diaryRoutes.js';
+import publicRoutes from './routes/publicRoutes.js'
 
 dotenv.config()
 
@@ -24,6 +29,12 @@ app.use(
 
 // routes
 app.use('/api/auth', authRoutes)
+app.use('/api/profile', profileRoutes )
+app.use('/api/challenges', challengeRoutes);
+app.use('/api/journals', personalJournalRoutes)
+app.use('/api/blogs', blogRoutes);
+app.use('/api/diaries', diaryRoutes);
+app.use('/api/public', publicRoutes)
 
 
 app.get("/", (req, res) => {
