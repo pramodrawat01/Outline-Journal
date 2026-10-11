@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const entries = [
   {
@@ -46,9 +47,11 @@ export default function ExplorePreview() {
             A small sample of the journals published on Outline this week.
           </p>
         </div>
-        <button className="flex items-center gap-1 text-sm text-emerald-400 hover:text-emerald-300 transition-colors shrink-0">
-          Explore all journals <ArrowUpRight size={16} />
-        </button>
+        <Link to="/blogs" className="cursor-pointer">
+          <button className="flex items-center gap-1 text-sm text-emerald-400 hover:text-emerald-300 transition-colors shrink-0">
+            Explore all journals <ArrowUpRight size={16} />
+          </button>
+        </Link>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">

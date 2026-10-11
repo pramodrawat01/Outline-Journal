@@ -29,7 +29,7 @@ export default function StoryListItem({ item }) {
   return (
     <Link
       to={to}
-      className="group block border-b border-white/[0.08] px-4 py-4 transition-colors duration-200  hover:bg-[#111511] sm:px-5"
+      className="group block border-b border-white/[0.08] px-4 py-4 transition-colors duration-200  hover:bg-black/20 sm:px-5"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">

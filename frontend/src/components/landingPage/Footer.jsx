@@ -7,13 +7,13 @@ const columns = [
     title: "Product",
     links: ["Explore journals", "Write an entry", "Pricing", "Mobile app"],
   },
-  {
-    title: "Company",
-    links: ["About", "Careers", "Press", "Contact"],
-  },
+  // {
+  //   title: "Company",
+  //   links: ["About", "Careers", "Press", "Contact"],
+  // },
   {
     title: "Resources",
-    links: ["Writing prompts", "Help center", "Community guidelines"],
+    links: ["About","Writing prompts", "Help center", "Community guidelines"],
   },
   {
     title: "Legal",
@@ -25,7 +25,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/5 bg-[#0a0d0b]">
       <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-10 mb-14">
+        <div className="grid grid-col-1 md:grid-cols-2 gap-10 mb-14">
           {/* brand + newsletter */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -39,21 +39,22 @@ export default function Footer() {
             </p>
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 w-full"
             >
               <input
                 type="email"
                 placeholder="you@email.com"
-                className="bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-emerald-500/50 w-full max-w-[220px]"
+                className="bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-emerald-500/50 w-full max-w-[280px] md:max-w-[330px]"
               />
               <button
                 type="submit"
-                className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-4 py-2 rounded-full shrink-0"
+                className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-6 py-2 rounded-full shrink-0"
               >
                 Join
               </button>
             </form>
           </div>
+<div className="grid grid-cols-2 sm:grid-cols-3 gap-y-8">
 
           {columns.map((col, i) => (
             <div key={i}>
@@ -74,6 +75,7 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+</div>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/5 text-sm text-gray-500">

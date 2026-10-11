@@ -60,7 +60,7 @@ export default function Header() {
         
         <div className="flex gap-3">
           <Link to="/blogs">
-            <button className="flex items-center gap-2 rounded-full border-b px-3 py-2.5 text-sm font-medium text-white transition hover:bg-white/5 sm:border sm:border-emerald-500 sm:px-5">
+            <button className="flex items-center cursor-pointer gap-2 rounded-full border-b px-3 py-2.5 text-sm font-medium text-white transition hover:bg-white/5 sm:border sm:border-emerald-500 sm:px-5">
               <Compass size={18} />
               <span className="hidden sm:inline">Explore blogs</span>
             </button>
@@ -83,16 +83,17 @@ export default function Header() {
                 ) : (
                   <Link
                     to="/signup"
-                    className="relative font-bold text-gray-300 hover:text-white transition-colors before:absolute before:left-0 before:-bottom-1 before:h-[2px] before:w-full before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-emerald-400 before:to-cyan-400 before:transition-transform before:duration-300 hover:before:scale-x-100"
+                    className="relative font-bold text-gray-300 hover:text-white transition-colors before:absolute before:left-0 before:-bottom-1 before:h-[2px] before:w-full before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-emerald-400 before:to-emerald-300 before:transition-transform before:duration-300 hover:before:scale-x-100"
                   >
                     Login <span className="text-emerald-400">/</span> Signup
                   </Link>
                 )}
-
-                <button className="hidden  md:flex bg-emerald-500 hover:bg-emerald-400 rounded-full items-center gap-2 text-sm font-medium px-5 py-2.5 text-black">
+<Link to="/create-blog">
+                <button className="hidden cursor-pointer  md:flex bg-emerald-500 hover:bg-emerald-400 rounded-full items-center gap-2 text-sm font-medium px-5 py-2.5 text-black">
                   <PenLine size={16} />
                   Start Writing
                 </button>
+</Link>
               </>
             )}
           </div>

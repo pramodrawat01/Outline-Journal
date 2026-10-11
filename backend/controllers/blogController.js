@@ -67,3 +67,37 @@ export const deleteBlog = async (req, res) => {
     res.status(500).json({ message: 'Could not delete blog' });
   }
 };
+
+
+export const updateBlog = async (req, res) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) return notFound(res);
+    const { title, content, visibility } = req.body;
+
+    const t = String(title ?? '').trim().slice(0, 150);
+    if (!t) return res.status(400).json({ message: 'A title is required' });
+    if (content != null && typeof content !== 'object') {
+      return res.status(400).json({ message: 'Invalid content' });
+    }
+
+    const blog = await Blog.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      {
+        $set: {
+          title: t,
+          content: content ?? null,
+          excerpt: makeExcerpt(content),
+          readTime: readTimeOf(content),
+          visibility: visibility === 'private' ? 'private' : 'public',
+        },
+      },
+      { new: true }
+    );
+    if (!blog) return notFound(res);
+
+    res.json({ blog });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Could not save changes' });
+  }
+};

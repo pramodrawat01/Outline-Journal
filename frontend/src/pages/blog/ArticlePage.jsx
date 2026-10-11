@@ -150,12 +150,12 @@ export default function ArticlePage({ kind }) {
       {more.length > 0 && (
         <div className="mt-10">
           <p className="text-sm font-semibold">More from Outline</p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="mt-4 flex flex-col gap-4">
             {more.map((i) => (
               <Link
                 key={`${i.kind}-${i._id}`}
                 to={itemPath(i)}
-                className="rounded-xl border border-white/10 bg-[#141414] p-4 text-sm font-semibold leading-snug transition hover:border-white/25"
+                className="rounded-md border border-white/10 bg-[#111511] p-4 text-sm font-semibold leading-snug transition hover:border-white/25"
               >
                 {i.title || 'Untitled'}
               </Link>

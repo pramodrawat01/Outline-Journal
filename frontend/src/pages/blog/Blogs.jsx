@@ -111,7 +111,10 @@ export default function Blogs() {
         </div>
 
         
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+      </header>
+
+      <div className=" mt-4 sm:mt-12  relative z-10 ">
+        <div className="mt-6 flex flex-wrap gap-2">
           {CHIPS.map((c) => {
             const active = type === c.value;
 
@@ -138,9 +141,6 @@ export default function Blogs() {
             );
           })}
         </div>
-      </header>
-
-      <div className=" mt-4 sm:mt-12  relative z-10">
         {loading ? (
           <p className="text-center text-sm text-white/40">Loading…</p>
         ) : error && items.length === 0 ? (
@@ -170,7 +170,7 @@ export default function Blogs() {
                   {q ? `Results for “${q}”` : HEADINGS[type]}
                 </h2>
 
-                <div className="overflow-hidden rounded-xl border  border-white/[0.09] bg-black/20">
+                <div className="overflow-hidden rounded-xl border  border-white/[0.09] bg-[#111511]">
                   {grid.map((item) => (
                     <StoryListItem key={keyOf(item)} item={item} />
                   ))}

@@ -28,6 +28,7 @@ import ArticlePage from './pages/blog/ArticlePage'
 import DiaryPage from './pages/blog/DiaryPage'
 import PublicLayout from './layout/PublicLayout'
 import AuthorProfile from './pages/public/AuthorProfile'
+import EditProfile from './pages/profile/EditProfile'
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path='blogs/:id' element={<BlogRead />} />
           
           <Route path='overview'  element={<ProfileOverview/>} />
+          <Route path="edit" element={<EditProfile/>} />
 
           <Route path='challenges' element={<Challenges/>} />
           <Route path='challenges/:id' element={<ChallengeDetail />} />
@@ -72,6 +74,7 @@ function App() {
         {/* <Route path='blogs' element={<Blogs/>} /> */}
 
         <Route path='/create-blog' element={<CreateBlog />} />
+        <Route path="/edit-blog/:id" element={<CreateBlog/>} />
       </Route>
       
 

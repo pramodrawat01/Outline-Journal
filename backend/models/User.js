@@ -56,9 +56,10 @@ const userSchema = new mongoose.Schema(
     },
     onboardingCompleted: { type: Boolean, default: false },
     onboardingStep: { type: Number, default: 1 },
-     currentlyReading: { type: String, trim: true, maxlength: 80, default: '' },
-sideProject: { type: String, trim: true, maxlength: 80, default: '' },
-exploring: { type: String, trim: true, maxlength: 120, default: '' },
+    
+    currentlyReading: { type: String, trim: true, maxlength: 80, default: '' },
+    sideProject: { type: String, trim: true, maxlength: 80, default: '' },
+    exploring: { type: String, trim: true, maxlength: 120, default: '' },
   },
   { timestamps: true }
 );

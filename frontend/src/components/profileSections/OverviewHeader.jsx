@@ -10,7 +10,7 @@ export default function OverviewHeader({ user }) {
           <span className="text-sm text-white/40">@{user.username}</span>
         </div>
         <Link
-          to="/profile"
+          to="/profile/edit"
           className="flex shrink-0 items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-medium text-white/80 hover:bg-white/5"
         >
           <FaRegEdit /> Edit profile

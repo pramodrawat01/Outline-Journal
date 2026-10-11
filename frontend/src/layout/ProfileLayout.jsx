@@ -151,14 +151,14 @@ export default function ProfileLayout() {
       />
 
       <main className="mx-auto max-w-6xl px-6 pb-12 pt-16">
-        <nav className="mb-8 flex gap-1 overflow-x-auto border-b border-white/10">
+       <nav className="mb-8 flex min-w-0 gap-1 overflow-x-auto overflow-y-hidden border-b border-white/10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map((t) => (
             <NavLink
               key={t.to}
               to={t.to}
               end={t.end}
               className={({ isActive }) =>
-                `-mb-px whitespace-nowrap border-b-2 px-4 py-3 text-sm transition ${
+                `-mb-px shrink-0 whitespace-nowrap border-b-2 px-4 py-3 text-sm transition ${
                   isActive
                     ? 'border-emerald-400 text-white'
                     : 'border-transparent text-white/50 hover:text-white'
@@ -175,12 +175,26 @@ export default function ProfileLayout() {
             <aside className="lg:border-r lg:border-white/10 lg:pr-8">
               <div className="lg:sticky lg:top-24">
                 <ProfileInfoPanel user={user}>
-                  <Link
+                  {/* <Link
                     to={`/u/${user.username}`}
                     className="inline-block text-sm text-emerald-400 transition hover:text-emerald-300"
                   >
                     View public profile →
-                  </Link>
+                  </Link> */}
+                   <div className="flex flex-col items-start gap-3">
+                    <Link
+                      to="/profile/edit"
+                      className="rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/5"
+                    >
+                      Edit profile
+                    </Link>
+                    <Link
+                      to={`/u/${user.username}`}
+                      className="text-sm text-emerald-400 transition hover:text-emerald-300"
+                    >
+                      View public profile →
+                    </Link>
+                  </div>
                 </ProfileInfoPanel>
               </div>
             </aside>

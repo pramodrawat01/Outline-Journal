@@ -1,129 +1,390 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import Placeholder from "@tiptap/extension-placeholder";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { createLowlight, common } from "lowlight";
-import {
-  ArrowLeft,
-  Heading1,
-  Heading2,
-  Heading3,
-  Pilcrow,
-  Bold,
-  Italic,
-  List,
-  ListOrdered,
-  Quote,
-  Code,
-  ImageIcon,
-  Undo2,
-  Redo2,
-} from "lucide-react";
+// import React, { useCallback, useRef, useState } from "react";
+// import { useLocation, useNavigate } from "react-router-dom";
+// import { useEditor, EditorContent } from "@tiptap/react";
+// import StarterKit from "@tiptap/starter-kit";
+// import Image from "@tiptap/extension-image";
+// import Placeholder from "@tiptap/extension-placeholder";
+// import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+// import { createLowlight, common } from "lowlight";
+// import {
+//   ArrowLeft,
+//   Heading1,
+//   Heading2,
+//   Heading3,
+//   Pilcrow,
+//   Bold,
+//   Italic,
+//   List,
+//   ListOrdered,
+//   Quote,
+//   Code,
+//   ImageIcon,
+//   Undo2,
+//   Redo2,
+// } from "lucide-react";
 
- import { createBlog } from "../services/blogService";
- import { createPersonalJournal } from "../services/journalService";
- import { todayStr } from "../utils/challengeUtils";
- import Segmented from "../components/onboarding/Segmented";
+//  import { createBlog } from "../services/blogService";
+//  import { createPersonalJournal } from "../services/journalService";
+//  import { todayStr } from "../utils/challengeUtils";
+//  import Segmented from "../components/onboarding/Segmented";
 
-const lowlight = createLowlight(common);
+// const lowlight = createLowlight(common);
 
-/* ---------------------------------------------------------- */
-/* Toolbar button                                               */
-/* ---------------------------------------------------------- */
+// /* ---------------------------------------------------------- */
+// /* Toolbar button                                               */
+// /* ---------------------------------------------------------- */
 
-function ToolbarButton({ onClick, active, disabled, title, children }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      title={title}
-      className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
-        active ? "bg-emerald-500 text-black" : "text-gray-400 hover:bg-white/10 hover:text-white"
-      }`}
-    >
-      {children}
-    </button>
-  );
-}
+// function ToolbarButton({ onClick, active, disabled, title, children }) {
+//   return (
+//     <button
+//       type="button"
+//       onClick={onClick}
+//       disabled={disabled}
+//       title={title}
+//       className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
+//         active ? "bg-emerald-500 text-black" : "text-gray-400 hover:bg-white/10 hover:text-white"
+//       }`}
+//     >
+//       {children}
+//     </button>
+//   );
+// }
 
-/* ---------------------------------------------------------- */
+// /* ---------------------------------------------------------- */
+
+// export default function CreateBlog() {
+
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const fileInputRef = useRef(null);
+  
+//   // Came from the CreateEntryModal — falls back gracefully if visited directly
+//   const { title: initialTitle = "", entryType = "blog" } = location.state || {};
+//   const [title, setTitle] = useState(initialTitle);
+//   const [visibility, setVisibility] = useState(entryType === "journal" ? "private" : "public");
+// const [publishing, setPublishing] = useState(false);
+// const [error, setError] = useState("");
+  
+//   const editor = useEditor({
+//     extensions: [
+//       StarterKit.configure({
+//         codeBlock: false, // disabled here so CodeBlockLowlight (below) handles code blocks instead
+//       }),
+//       Image.configure({
+//         HTMLAttributes: { class: "rounded-xl max-w-full" },
+//       }),
+//       Placeholder.configure({
+//         placeholder: "Start writing your entry...",
+//       }),
+//       CodeBlockLowlight.configure({ lowlight }),
+//     ],
+//     content: "",
+//   });
+
+//   // Reads a chosen file as base64 and inserts it directly into the document.
+//   //
+//   // NOTE: this is a placeholder. For real usage you'd instead upload the file
+//   // to your backend (multer -> disk/S3/Cloudinary) and insert the returned
+//   // URL here instead of a base64 string, so the image doesn't bloat every
+//   // request that loads this entry later.
+//   const handleImageUpload = useCallback(
+//     (e) => {
+//       const file = e.target.files?.[0];
+//       if (!file || !editor) return;
+
+//       const reader = new FileReader();
+//       reader.onload = () => {
+//         editor.chain().focus().setImage({ src: reader.result }).run();
+//       };
+//       reader.readAsDataURL(file);
+
+//       e.target.value = ""; // allow choosing the same file again later
+//     },
+//     [editor]
+//   );
+
+//   // const handlePublish = () => {
+//   //   const payload = {
+//   //     title,
+//   //     entryType,
+//   //     content: editor?.getHTML(),
+//   //   };
+//   //   // TODO: POST this to your backend once a /api/entries endpoint exists
+//   //   console.log("Publishing entry:", payload);
+//   //   alert("Publish endpoint isn't built yet — check the console for the payload.");
+//   // };
+
+//   const handlePublish = async () => {
+//     if (editor.isEmpty && !title.trim()) {
+//       setError("Write something before publishing.");
+//       return;
+//     }
+//     setPublishing(true);
+//     setError("");
+//     try {
+//       const content = editor.getJSON();
+//       if (entryType === "journal") {
+//         const j = await createPersonalJournal({ title, content, entryDate: todayStr(), visibility });
+//         navigate(`/profile/journal/${j._id}`, { replace: true });
+//       } else {
+//         const b = await createBlog({ title, content, visibility });
+//         navigate(`/profile/blogs/${b._id}`, { replace: true });
+//       }
+//     } catch (err) {
+//       setError(err.response?.data?.message || "Could not publish. Try again.");
+//       setPublishing(false);
+//     }
+//   };
+
+//   if (!editor) return null;
+
+//   return (
+//     <div className="min-h-screen w-full bg-[#0a0d0b] text-white font-sans antialiased">
+//       {/* top bar */}
+//       <div className="sticky top-0 z-20 border-b border-white/5 bg-[#0a0d0b]/95 backdrop-blur-sm">
+//         <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+//           <button
+//             onClick={() => navigate(-1)}
+//             className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+//           >
+//             <ArrowLeft size={16} />
+//             Back
+//           </button>
+
+//           <span className="text-xs text-gray-500 uppercase tracking-widest">
+//             {entryType === "journal" ? "Journal Entry" : "Blog Post"}
+//           </span>
+
+//           {/* <button
+//             onClick={handlePublish}
+//             className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-5 py-2 rounded-full"
+//           >
+//             Publish
+//           </button> */}
+//           <div className="flex items-center gap-3">
+//             <Segmented
+//               value={visibility}
+//               onChange={setVisibility}
+//               options={[
+//                 { value: "public", label: "Public" },
+//                 { value: "private", label: "Private" },
+//               ]}
+//             />
+//             <button
+//               onClick={handlePublish}
+//               disabled={publishing}
+//               className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 transition-colors text-black text-sm font-medium px-5 py-2 rounded-full"
+//             >
+//               {publishing ? "Publishing…" : "Publish"}
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* editor toolbar */}
+//       <div className="sticky top-[65px] z-10 border-b border-white/5 bg-[#0a0d0b]/95 backdrop-blur-sm">
+//         <div className="max-w-4xl mx-auto flex items-center gap-1 px-6 py-2 overflow-x-auto">
+//           <ToolbarButton title="Undo" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
+//             <Undo2 size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton title="Redo" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
+//             <Redo2 size={15} />
+//           </ToolbarButton>
+
+//           <div className="w-px h-5 bg-white/10 mx-1" />
+
+//           <ToolbarButton
+//             title="Paragraph"
+//             active={editor.isActive("paragraph")}
+//             onClick={() => editor.chain().focus().setParagraph().run()}
+//           >
+//             <Pilcrow size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton
+//             title="Heading 1"
+//             active={editor.isActive("heading", { level: 1 })}
+//             onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+//           >
+//             <Heading1 size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton
+//             title="Heading 2"
+//             active={editor.isActive("heading", { level: 2 })}
+//             onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+//           >
+//             <Heading2 size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton
+//             title="Heading 3"
+//             active={editor.isActive("heading", { level: 3 })}
+//             onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+//           >
+//             <Heading3 size={15} />
+//           </ToolbarButton>
+
+//           <div className="w-px h-5 bg-white/10 mx-1" />
+
+//           <ToolbarButton title="Bold" active={editor.isActive("bold")} onClick={() => editor.chain().focus().toggleBold().run()}>
+//             <Bold size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton title="Italic" active={editor.isActive("italic")} onClick={() => editor.chain().focus().toggleItalic().run()}>
+//             <Italic size={15} />
+//           </ToolbarButton>
+
+//           <div className="w-px h-5 bg-white/10 mx-1" />
+
+//           <ToolbarButton
+//             title="Bullet list"
+//             active={editor.isActive("bulletList")}
+//             onClick={() => editor.chain().focus().toggleBulletList().run()}
+//           >
+//             <List size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton
+//             title="Numbered list"
+//             active={editor.isActive("orderedList")}
+//             onClick={() => editor.chain().focus().toggleOrderedList().run()}
+//           >
+//             <ListOrdered size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton
+//             title="Quote"
+//             active={editor.isActive("blockquote")}
+//             onClick={() => editor.chain().focus().toggleBlockquote().run()}
+//           >
+//             <Quote size={15} />
+//           </ToolbarButton>
+//           <ToolbarButton
+//             title="Code block"
+//             active={editor.isActive("codeBlock")}
+//             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+//           >
+//             <Code size={15} />
+//           </ToolbarButton>
+
+//           <div className="w-px h-5 bg-white/10 mx-1" />
+
+//           <ToolbarButton title="Insert image" onClick={() => fileInputRef.current?.click()}>
+//             <ImageIcon size={15} />
+//           </ToolbarButton>
+//           <input
+//             ref={fileInputRef}
+//             type="file"
+//             accept="image/*"
+//             onChange={handleImageUpload}
+//             className="hidden"
+//           />
+//         </div>
+//       </div>
+
+//       {/* title + editor body */}
+//       <div className="max-w-4xl mx-auto px-6 py-10">
+//         {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+//         <input
+//           type="text"
+//           value={title}
+//           onChange={(e) => setTitle(e.target.value)}
+//           placeholder="Untitled entry"
+//           className="w-full bg-transparent text-4xl font-semibold placeholder:text-gray-600 focus:outline-none mb-8"
+//         />
+
+//         <EditorContent editor={editor} className="tiptap-editor" />
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { FaArrowLeft } from 'react-icons/fa';
+import { createBlog, getMyBlog, updateBlog } from '../services/blogService';
+import { createPersonalJournal } from '../services/journalService';
+import { todayStr } from '../utils/challengeUtils';
+import { getExtensions } from '../components/editor/editorExtensions';
+import EditorToolbar from '../components/editor/EditorToolbar';
+import Segmented from '../components/onboarding/Segmented';
 
 export default function CreateBlog() {
-
   const navigate = useNavigate();
   const location = useLocation();
-  const fileInputRef = useRef(null);
-  
-  // Came from the CreateEntryModal — falls back gracefully if visited directly
-  const { title: initialTitle = "", entryType = "blog" } = location.state || {};
+  const { id } = useParams(); // set on /edit-blog/:id, undefined when creating
+  const isEdit = Boolean(id);
+
+  // Came from CreateEntryModal; falls back gracefully if visited directly
+  const { title: initialTitle = '', entryType = 'blog' } = location.state || {};
+
   const [title, setTitle] = useState(initialTitle);
-  const [visibility, setVisibility] = useState(entryType === "journal" ? "private" : "public");
-const [publishing, setPublishing] = useState(false);
-const [error, setError] = useState("");
-  
+  const [visibility, setVisibility] = useState(entryType === 'journal' ? 'private' : 'public');
+  const [loading, setLoading] = useState(isEdit);
+  const [loadError, setLoadError] = useState('');
+  const [publishing, setPublishing] = useState(false);
+  const [error, setError] = useState('');
+
   const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        codeBlock: false, // disabled here so CodeBlockLowlight (below) handles code blocks instead
-      }),
-      Image.configure({
-        HTMLAttributes: { class: "rounded-xl max-w-full" },
-      }),
-      Placeholder.configure({
-        placeholder: "Start writing your entry...",
-      }),
-      CodeBlockLowlight.configure({ lowlight }),
-    ],
-    content: "",
+    extensions: getExtensions('Start writing your entry...'),
+    content: '',
   });
 
-  // Reads a chosen file as base64 and inserts it directly into the document.
-  //
-  // NOTE: this is a placeholder. For real usage you'd instead upload the file
-  // to your backend (multer -> disk/S3/Cloudinary) and insert the returned
-  // URL here instead of a base64 string, so the image doesn't bloat every
-  // request that loads this entry later.
-  const handleImageUpload = useCallback(
-    (e) => {
-      const file = e.target.files?.[0];
-      if (!file || !editor) return;
+  // edit mode: load the saved blog into the editor
+  useEffect(() => {
+    if (!isEdit || !editor) return;
+    let cancelled = false;
+    getMyBlog(id)
+      .then((b) => {
+        if (cancelled) return;
+        setTitle(b.title);
+        setVisibility(b.visibility);
+        if (b.content) editor.commands.setContent(b.content);
+      })
+      .catch((err) => {
+        if (!cancelled) setLoadError(err.response?.status === 404 ? 'Blog not found.' : 'Could not load this blog.');
+      })
+      .finally(() => !cancelled && setLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [id, isEdit, editor]);
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        editor.chain().focus().setImage({ src: reader.result }).run();
-      };
-      reader.readAsDataURL(file);
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-[#0a0d0b] px-6 py-24 text-center text-white">
+        <p className="text-sm text-white/60">{loadError}</p>
+        <Link to="/profile" className="mt-4 inline-block text-sm text-emerald-400 hover:text-emerald-300">
+          ← Back to profile
+        </Link>
+      </div>
+    );
+  }
 
-      e.target.value = ""; // allow choosing the same file again later
-    },
-    [editor]
-  );
-
-  // const handlePublish = () => {
-  //   const payload = {
-  //     title,
-  //     entryType,
-  //     content: editor?.getHTML(),
-  //   };
-  //   // TODO: POST this to your backend once a /api/entries endpoint exists
-  //   console.log("Publishing entry:", payload);
-  //   alert("Publish endpoint isn't built yet — check the console for the payload.");
-  // };
+  if (!editor || loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0d0b] px-6 py-24 text-center text-sm text-white/40">Loading…</div>
+    );
+  }
 
   const handlePublish = async () => {
-    if (editor.isEmpty && !title.trim()) {
-      setError("Write something before publishing.");
+    const needsTitle = isEdit || entryType !== 'journal';
+    if (needsTitle && !title.trim()) {
+      setError('Add a title first.');
       return;
     }
+    if (editor.isEmpty && !title.trim()) {
+      setError('Write something before publishing.');
+      return;
+    }
+
     setPublishing(true);
-    setError("");
+    setError('');
     try {
       const content = editor.getJSON();
-      if (entryType === "journal") {
+
+      if (isEdit) {
+        await updateBlog(id, { title, content, visibility });
+        navigate(`/profile/blogs/${id}`, { replace: true });
+      } else if (entryType === 'journal') {
         const j = await createPersonalJournal({ title, content, entryDate: todayStr(), visibility });
         navigate(`/profile/journal/${j._id}`, { replace: true });
       } else {
@@ -131,161 +392,65 @@ const [error, setError] = useState("");
         navigate(`/profile/blogs/${b._id}`, { replace: true });
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Could not publish. Try again.");
+      setError(err.response?.data?.message || 'Could not save. Try again.');
       setPublishing(false);
     }
   };
 
-  if (!editor) return null;
+  const goBack = () => (isEdit ? navigate(`/profile/blogs/${id}`) : navigate(-1));
+
+  const label = isEdit ? 'Edit Blog' : entryType === 'journal' ? 'Journal Entry' : 'Blog Post';
 
   return (
-    <div className="min-h-screen w-full bg-[#0a0d0b] text-white font-sans antialiased">
-      {/* top bar */}
+    <div className="min-h-screen w-full bg-[#0a0d0b] font-sans text-white antialiased">
       <div className="sticky top-0 z-20 border-b border-white/5 bg-[#0a0d0b]/95 backdrop-blur-sm">
-        <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-6 py-3">
           <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+            onClick={goBack}
+            className="flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-white"
           >
-            <ArrowLeft size={16} />
+            <FaArrowLeft size={13} />
             Back
           </button>
 
-          <span className="text-xs text-gray-500 uppercase tracking-widest">
-            {entryType === "journal" ? "Journal Entry" : "Blog Post"}
-          </span>
+          <span className="hidden text-xs uppercase tracking-widest text-gray-500 sm:block">{label}</span>
 
-          {/* <button
-            onClick={handlePublish}
-            className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-5 py-2 rounded-full"
-          >
-            Publish
-          </button> */}
           <div className="flex items-center gap-3">
             <Segmented
               value={visibility}
               onChange={setVisibility}
               options={[
-                { value: "public", label: "Public" },
-                { value: "private", label: "Private" },
+                { value: 'public', label: 'Public' },
+                { value: 'private', label: 'Private' },
               ]}
             />
             <button
               onClick={handlePublish}
               disabled={publishing}
-              className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 transition-colors text-black text-sm font-medium px-5 py-2 rounded-full"
+              className="rounded-full bg-emerald-500 px-5 py-2 text-sm font-medium text-black transition-colors hover:bg-emerald-400 disabled:opacity-50"
             >
-              {publishing ? "Publishing…" : "Publish"}
+              {publishing ? (isEdit ? 'Saving…' : 'Publishing…') : isEdit ? 'Save changes' : 'Publish'}
             </button>
+          </div>
+        </div>
+
+        <div className="border-t border-white/5">
+          <div className="mx-auto max-w-4xl px-2">
+            <EditorToolbar editor={editor} />
           </div>
         </div>
       </div>
 
-      {/* editor toolbar */}
-      <div className="sticky top-[65px] z-10 border-b border-white/5 bg-[#0a0d0b]/95 backdrop-blur-sm">
-        <div className="max-w-4xl mx-auto flex items-center gap-1 px-6 py-2 overflow-x-auto">
-          <ToolbarButton title="Undo" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
-            <Undo2 size={15} />
-          </ToolbarButton>
-          <ToolbarButton title="Redo" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
-            <Redo2 size={15} />
-          </ToolbarButton>
-
-          <div className="w-px h-5 bg-white/10 mx-1" />
-
-          <ToolbarButton
-            title="Paragraph"
-            active={editor.isActive("paragraph")}
-            onClick={() => editor.chain().focus().setParagraph().run()}
-          >
-            <Pilcrow size={15} />
-          </ToolbarButton>
-          <ToolbarButton
-            title="Heading 1"
-            active={editor.isActive("heading", { level: 1 })}
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          >
-            <Heading1 size={15} />
-          </ToolbarButton>
-          <ToolbarButton
-            title="Heading 2"
-            active={editor.isActive("heading", { level: 2 })}
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          >
-            <Heading2 size={15} />
-          </ToolbarButton>
-          <ToolbarButton
-            title="Heading 3"
-            active={editor.isActive("heading", { level: 3 })}
-            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          >
-            <Heading3 size={15} />
-          </ToolbarButton>
-
-          <div className="w-px h-5 bg-white/10 mx-1" />
-
-          <ToolbarButton title="Bold" active={editor.isActive("bold")} onClick={() => editor.chain().focus().toggleBold().run()}>
-            <Bold size={15} />
-          </ToolbarButton>
-          <ToolbarButton title="Italic" active={editor.isActive("italic")} onClick={() => editor.chain().focus().toggleItalic().run()}>
-            <Italic size={15} />
-          </ToolbarButton>
-
-          <div className="w-px h-5 bg-white/10 mx-1" />
-
-          <ToolbarButton
-            title="Bullet list"
-            active={editor.isActive("bulletList")}
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-          >
-            <List size={15} />
-          </ToolbarButton>
-          <ToolbarButton
-            title="Numbered list"
-            active={editor.isActive("orderedList")}
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          >
-            <ListOrdered size={15} />
-          </ToolbarButton>
-          <ToolbarButton
-            title="Quote"
-            active={editor.isActive("blockquote")}
-            onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          >
-            <Quote size={15} />
-          </ToolbarButton>
-          <ToolbarButton
-            title="Code block"
-            active={editor.isActive("codeBlock")}
-            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          >
-            <Code size={15} />
-          </ToolbarButton>
-
-          <div className="w-px h-5 bg-white/10 mx-1" />
-
-          <ToolbarButton title="Insert image" onClick={() => fileInputRef.current?.click()}>
-            <ImageIcon size={15} />
-          </ToolbarButton>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-          />
-        </div>
-      </div>
-
-      {/* title + editor body */}
-      <div className="max-w-4xl mx-auto px-6 py-10">
+      <div className="mx-auto max-w-4xl px-6 py-10">
         {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Untitled entry"
-          className="w-full bg-transparent text-4xl font-semibold placeholder:text-gray-600 focus:outline-none mb-8"
+          maxLength={150}
+          className="mb-8 w-full bg-transparent text-4xl font-semibold placeholder:text-gray-600 focus:outline-none"
         />
 
         <EditorContent editor={editor} className="tiptap-editor" />

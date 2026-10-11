@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function CTA() {
   return (
@@ -26,13 +27,17 @@ export default function CTA() {
           Free to start, no credit card needed. Your first entry takes less
           than two minutes to write.
         </p>
-        <div className="relative flex items-center justify-center gap-3">
-          <button className="bg-black text-white hover:bg-gray-900 transition-colors text-sm font-medium px-6 py-3 rounded-full">
-            Create your free account
-          </button>
-          <button className="bg-white/10 hover:bg-white/20 transition-colors text-white text-sm font-medium px-6 py-3 rounded-full border border-white/20">
-            See how it works
-          </button>
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4  ">
+          <Link to="/signup">
+            <button className="bg-[#010201] text-white cursor-pointer hover:bg-gray-900 transition-colors text-sm font-medium px-6 py-3 rounded-full">
+              Create your free account
+            </button>
+          </Link>
+          <Link to="">
+            <button className="bg-white/10 hover:bg-white/20 transition-colors text-white text-sm font-medium px-6 py-3 rounded-full border border-white/20">
+              See how it works
+            </button>
+          </Link>
         </div>
       </div>
     </section>

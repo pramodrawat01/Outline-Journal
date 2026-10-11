@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { FaArrowLeft, FaTrash } from 'react-icons/fa';
+import { FaArrowLeft, FaRegEdit, FaTrash } from 'react-icons/fa';
 import { deleteBlog, getMyBlog } from '../../services/blogService';
 import JournalReader from '../../components/editor/JournalReader';
 
@@ -80,7 +80,14 @@ export default function BlogRead() {
         </div>
       </article>
 
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between">
+        <Link
+          to={`/edit-blog/${blog._id}`}
+          className="flex items-center gap-2 rounded-full border border-white/10 px-5 py-2.5 text-sm font-medium text-white/80 transition hover:bg-white/5"
+        >
+          <FaRegEdit size={13} /> Edit
+        </Link>
+        
         <button
           onClick={handleDelete}
           className="flex items-center gap-2 text-xs text-white/30 transition hover:text-red-400"

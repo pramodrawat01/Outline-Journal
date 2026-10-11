@@ -9,7 +9,7 @@ export default function FeaturedCard({ item }) {
   const meta = itemMeta(item);
 
   return (
-    <div className="relative rounded-2xl border border-white/10 bg-[#111511] p-6 transition hover:border-white/25 sm:p-8">
+    <div className="relative rounded-2xl border border-white/10 bg-[#111511] p-6 transition hover:border-white/25 sm:p-8 mt-4">
       <FaArrowRight className="absolute right-6 top-6 -rotate-45 text-white/40" size={13} />
 
       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">

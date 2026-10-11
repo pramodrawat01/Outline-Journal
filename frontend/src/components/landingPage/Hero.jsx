@@ -102,12 +102,12 @@ export default function Hero() {
 
         <div className="flex items-center gap-3">
           <Link to="/create-blog">
-            <button className="bg-emerald-500 hover:bg-emerald-400 transition-colors text-black text-sm font-medium px-6 py-3 rounded-full">
+            <button className="bg-emerald-500 hover:bg-emerald-400 transition-colors cursor-pointer text-black text-sm font-medium px-6 py-3 rounded-full">
               Start your journal
             </button>
           </Link>
           <Link to="/blogs">
-            <button className="rounded-full border border-white/10 bg-[#202923] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#29352d]">
+            <button className="rounded-full border border-white/10 bg-[#202923] px-6 py-3 cursor-pointer text-sm font-medium text-white transition-colors hover:bg-[#29352d]">
               Read journals
             </button>
           </Link>

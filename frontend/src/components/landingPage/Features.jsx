@@ -110,7 +110,7 @@ export default function Features() {
 
         {/* community + privacy */}
         <div className="flex flex-col gap-5">
-          <div className="bg-[#111511] border border-white/5 rounded-2xl p-6 flex items-center gap-3">
+          <div className="bg-[#111511] border border-white/5 rounded-2xl p-6 flex flex-col sm:flex-row md:flex-col items-center gap-3">
             <div className="flex -space-x-2">
               {[1, 2, 3].map((i) => (
                 <img
