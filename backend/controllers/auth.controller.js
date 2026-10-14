@@ -110,5 +110,8 @@ export async function logout(req, res) {
 /* ----------------------------- ME ----------------------------- */
 // Returns the currently logged-in user; used on app load to restore a session.
 export async function getMe(req, res) {
-  return res.status(200).json({ user: sanitize(req.user)  });
+  // return res.status(200).json({ user: sanitize(req.user)  });
+  const user = await User.findById(req.user._id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+  return res.status(200).json({ user: sanitize(user) });
 }

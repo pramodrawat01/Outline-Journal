@@ -105,7 +105,9 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import ConfirmModal from '../components/common/ConfirmModal';
+
+import  ConfirmModal from '../components/common/ConfirmModal.jsx'
+
 import ProfileStaticHeader from '../components/profileSections/ProfileStaticHeader';
 import ProfileInfoPanel from '../components/profileSections/ProfileInfoPanel';
 

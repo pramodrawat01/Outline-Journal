@@ -9,3 +9,10 @@ export const isValidDate = (s) => {
 // inclusive number of days from a to b (same day = 1)
 export const totalDays = (a, b) =>
   Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86400000) + 1;
+
+
+export const addDays = (s, n) => {
+  const d = new Date(`${s}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};

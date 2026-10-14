@@ -29,13 +29,17 @@ import DiaryPage from './pages/blog/DiaryPage'
 import PublicLayout from './layout/PublicLayout'
 import AuthorProfile from './pages/public/AuthorProfile'
 import EditProfile from './pages/profile/EditProfile'
+import GuestRoute from './routes/GuestRoute'
 
 function App() {
   return (
     <Routes>
       <Route path='/' element={<LandingPage />} />
-      <Route path='/signup' element={<AuthPage />} />
-      {/* <Route path='/blog' element={<Blog/>} /> */}
+      <Route element={<GuestRoute/>} >
+        <Route path='/signup' element={<AuthPage />} />
+      </Route>
+
+    
 
       {/* logged in, onboarding not finished */}
       <Route element={<OnboardingLayout />}>
