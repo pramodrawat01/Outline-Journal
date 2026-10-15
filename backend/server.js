@@ -10,6 +10,8 @@ import profileRoutes from './routes/profileRoutes.js'
  import blogRoutes from './routes/blogRoutes.js';
 import diaryRoutes from './routes/diaryRoutes.js';
 import publicRoutes from './routes/publicRoutes.js'
+import trackerRoutes from './routes/trackerRoutes.js'
+import statsRoutes from './routes/statsRoutes.js'
 
 dotenv.config()
 
@@ -35,6 +37,8 @@ app.use('/api/journals', personalJournalRoutes)
 app.use('/api/blogs', blogRoutes);
 app.use('/api/diaries', diaryRoutes);
 app.use('/api/public', publicRoutes)
+app.use('/api/trackers', trackerRoutes)
+app.use('/api/stats', statsRoutes)
 
 
 app.get("/", (req, res) => {

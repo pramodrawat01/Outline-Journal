@@ -91,7 +91,7 @@ export default function ArticlePage({ kind }) {
   const label = diary ? `${diary.icon || '📓'} ${diary.title}` : KIND_LABEL[article.kind];
 
   return (
-    <article className="mx-auto max-w-4xl">
+    <article className="mx-auto max-w-4xl relative "> 
       <div className="flex items-center justify-between gap-3">
         <Link to={backTo} className="inline-flex items-center gap-2 text-xs text-white/50 hover:text-white">
           <FaArrowLeft size={10} /> {diary ? diary.title : 'All stories'}

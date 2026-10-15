@@ -146,7 +146,7 @@ export default function Blogs() {
         ) : error && items.length === 0 ? (
           <p className="text-center text-sm text-red-400">{error}</p>
         ) : items.length === 0 ? (
-          <div className="rounded-2xl border border-white/10 bg-[#111511] px-5 py-10 text-center text-sm text-white/40">
+          <div className="rounded-2xl mt-4 border border-white/10 bg-[#111511] px-5 py-10 text-center text-sm text-white/40">
             {q ? `No results for “${q}”.` : "No public stories yet."}
           </div>
         ) : (

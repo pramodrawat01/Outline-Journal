@@ -264,6 +264,8 @@ export const getPublicBlog = async (req, res) => {
 
 export const getPublicJournal = async (req, res) => {
   try {
+    console.log(req.params.id)
+    console.log('in getProfileJournal')
     if (!mongoose.isValidObjectId(req.params.id)) return notFound(res);
     const journal = await Journal.findOne({
       _id: req.params.id,
@@ -292,6 +294,92 @@ export const getPublicJournal = async (req, res) => {
     res.status(500).json({ message: 'Could not load story' });
   }
 };
+
+// export const getPublicBlog = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     if (!mongoose.isValidObjectId(id)) return notFound(res);
+
+//     const blog = await Blog.findById(id).lean();
+//     if (!blog) {
+//       const isJournal = await Journal.exists({ _id: id });
+//       console.log(
+//         `[public blog ${id}] ${isJournal ? 'this id belongs to a JOURNAL, the link was built with the wrong type' : 'no blog with this id (wrong database?)'}`
+//       );
+//       return notFound(res);
+//     }
+//     if (blog.visibility !== 'public') {
+//       console.log(`[public blog ${id}] blog is ${blog.visibility}, not public`);
+//       return notFound(res);
+//     }
+//     const author = await loadAuthor(blog.user);
+//     if (!author) {
+//       console.log(`[public blog ${id}] author ${blog.user} does not exist`);
+//       return notFound(res);
+//     }
+
+//     res.json({
+//       article: {
+//         kind: 'blog',
+//         _id: blog._id,
+//         title: blog.title,
+//         content: blog.content,
+//         date: blog.createdAt,
+//         readTime: blog.readTime,
+//       },
+//       author: shapeAuthor(author),
+//       diary: null,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: 'Could not load story' });
+//   }
+// };
+
+// export const getPublicJournal = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     if (!mongoose.isValidObjectId(id)) return notFound(res);
+
+//     const journal = await Journal.findById(id).lean();
+//     if (!journal) {
+//       const isBlog = await Blog.exists({ _id: id });
+//       console.log(
+//         `[public journal ${id}] ${isBlog ? 'this id belongs to a BLOG, the link was built with the wrong type' : 'no journal with this id (wrong database?)'}`
+//       );
+//       return notFound(res);
+//     }
+//     if (journal.visibility !== 'public') {
+//       console.log(`[public journal ${id}] journal is ${journal.visibility}, not public`);
+//       return notFound(res);
+//     }
+//     if (journal.challenge || journal.diary) {
+//       console.log(`[public journal ${id}] belongs to a ${journal.challenge ? 'challenge' : 'diary'}, so it is not a standalone journal`);
+//       return notFound(res);
+//     }
+//     const author = await loadAuthor(journal.user);
+//     if (!author) {
+//       console.log(`[public journal ${id}] author ${journal.user} does not exist`);
+//       return notFound(res);
+//     }
+
+//     res.json({
+//       article: {
+//         kind: 'journal',
+//         _id: journal._id,
+//         title: journal.title,
+//         content: journal.content,
+//         date: journal.entryDate,
+//         readTime: null,
+//       },
+//       author: shapeAuthor(author),
+//       diary: null,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: 'Could not load story' });
+//   }
+// };
 
 export const getPublicDiary = async (req, res) => {
   try {

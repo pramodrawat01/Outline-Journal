@@ -114,8 +114,9 @@ import ProfileInfoPanel from '../components/profileSections/ProfileInfoPanel';
 const TABS = [
   { to: '/profile', label: 'Profile', end: true },
   { to: '/profile/challenges', label: 'Challenges' },
-  { to: '/profile/journal', label: 'Journals' },
+  { to: '/profile/tracker', label: 'Tracker' },
   { to: '/profile/overview', label: 'Overview' },
+  { to: '/profile/journal', label: 'Journals' },
   { to: '/profile/diary', label: 'Journal Diary' },
 ];
 

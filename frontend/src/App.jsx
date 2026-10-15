@@ -21,8 +21,6 @@ import JournalWrite from './pages/profile/JournalWrite'
 import BlogRead from './pages/profile/BlogRead'
  import Diary from './pages/profile/Diary'
  import DiaryDetail from './pages/profile/DiaryDetail'
-// import PublicLayout from './layout/PublicLayout'
-// import AuthorProfile from './pages/public/AuthorProfile'
 
 import ArticlePage from './pages/blog/ArticlePage'
 import DiaryPage from './pages/blog/DiaryPage'
@@ -30,6 +28,8 @@ import PublicLayout from './layout/PublicLayout'
 import AuthorProfile from './pages/public/AuthorProfile'
 import EditProfile from './pages/profile/EditProfile'
 import GuestRoute from './routes/GuestRoute'
+import Tracker from './pages/profile/Tracker'
+import TrackerDetail from './pages/profile/TrackerDetail'
 
 function App() {
   return (
@@ -55,6 +55,9 @@ function App() {
           <Route path='blogs/:id' element={<BlogRead />} />
           
           <Route path='overview'  element={<ProfileOverview/>} />
+          <Route path="tracker" element={<Tracker/>} />
+          <Route path="tracker/:id" element={<TrackerDetail/>} />
+
           <Route path="edit" element={<EditProfile/>} />
 
           <Route path='challenges' element={<Challenges/>} />
