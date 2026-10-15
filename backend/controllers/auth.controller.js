@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import { generateTokenAndSetCookie } from "../utils/generateToken.js";
+import { generateTokenAndSetCookie } from "../utils/Generatetoken.js";
 import { sanitize } from "../utils/sanatizeUser.js";
 
 /* --------------------------- SIGNUP --------------------------- */
