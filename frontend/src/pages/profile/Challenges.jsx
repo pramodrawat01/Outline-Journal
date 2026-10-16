@@ -34,16 +34,27 @@ export default function Challenges() {
 
   return (
     <div className="space-y-8">
+      <div className='flex justify-between items-center gap-3'>
+        <div className=''>
+          <h2 className='text-lg font-semibold'>Challenges</h2>
+          { !loading && !error && (
+            <p className='text-xs text-white/40'>
+              { challenges && challenges?.length || 0} {challenges.length === 1 ? 'challenge' : 'challenges'}
+            </p>
+          )}
+        </div>
+        <button
+          onClick={() => setShowCreate(true)}
+          className="flex items-center justify-center gap-2 rounded-full bg-emerald-500  px-5 py-2 md:py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400"
+        >
+          <FaPlus size={11} /> New challenge
+        </button>
+
+      </div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <div className="min-w-0 flex-1">
           <ChallengeBanner challenge={current} />
         </div>
-        <button
-          onClick={() => setShowCreate(true)}
-          className="flex shrink-0 items-center justify-center gap-2 rounded-full border border-emerald-500/50 px-5 py-2.5 text-sm font-medium text-emerald-400 transition hover:bg-emerald-500/10"
-        >
-          Create <FaPlus size={11} />
-        </button>
       </div>
 
       <section>

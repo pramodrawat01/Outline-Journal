@@ -85,7 +85,7 @@ export default function ProgressCard({
   const today = todayStr();
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#141414] p-5">
+    <div className="rounded-2xl border border-white/10 bg-[#141414] px-3 py-5 md:p-5">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold">Progress this month</h2>
         <span className="text-xs text-white/40">Last 30 days</span>

@@ -6,6 +6,7 @@ import { fmtDate, todayStr } from '../../utils/challengeUtils';
 import DayChecklist from '../../components/profileSections/DayChecklist';
 import TrackerGrid from '../../components/profileSections/TrackerGrid';
 import TrackerFormModal from '../../components/profileSections/TrackerFormModal';
+import ConfirmModal from '../../components/common/ConfirmModal';
 
 const Stat = ({ label, children }) => (
   <div className="rounded-xl bg-white/5 p-4">
@@ -28,6 +29,8 @@ export default function TrackerDetail() {
   const [saveError, setSaveError] = useState('');
   const [showEdit, setShowEdit] = useState(false);
   const queue = useRef(Promise.resolve());
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const load = useCallback(
     () =>
@@ -81,12 +84,15 @@ export default function TrackerDetail() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Delete this tracker and all of its history? This cannot be undone.')) return;
+    setDeleting(true)
     try {
       await deleteTracker(id);
       navigate('/profile/tracker', { replace: true });
     } catch {
       setError('Could not delete the tracker.');
+       setSaveError('Could not delete the tracker.');
+      setDeleting(false);
+      setConfirmOpen(false);
     }
   };
 
@@ -122,7 +128,7 @@ export default function TrackerDetail() {
             <FaRegEdit size={12} /> Edit tracker
           </button>
           <button
-            onClick={handleDelete}
+            onClick={() => setConfirmOpen(true)}
             className="flex items-center gap-2 text-white/30 transition hover:text-red-400"
           >
             <FaTrash size={11} /> Delete
@@ -143,7 +149,7 @@ export default function TrackerDetail() {
         </div>
       )}
 
-      <section className="rounded-2xl border border-white/10 bg-[#141414] p-5">
+      <section className="rounded-2xl border border-white/10 bg-[#141414] p-3 md:p-5">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-base font-semibold">{date === today ? 'Tonight' : fmtDate(date)}</h2>
           <input
@@ -176,6 +182,17 @@ export default function TrackerDetail() {
           }}
         />
       )}
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={handleDelete}
+        loading={deleting}
+        variant="danger"
+        title="Delete this tracker?"
+        description="Its whole history will be deleted too. This cannot be undone."
+        confirmText="Delete"
+      />
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function JournalTimelineItem({ journal: j, challengeId }) {
     <li className="relative">
       <span className="absolute -left-[30px] top-2 h-3 w-3 rounded-full border-2 border-emerald-500 bg-[#0a0a0a]" />
 
-      <div className="rounded-2xl border border-white/10 bg-[#141414] p-5">
+      <div className="rounded-2xl border border-white/10 bg-[#141414] px-3  p-5 sm:px-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs text-white/40">

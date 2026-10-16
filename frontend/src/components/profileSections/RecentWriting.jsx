@@ -60,7 +60,7 @@ export default function RecentWriting({ items = [] }) {
             <Link
               key={`${p.kind}-${p._id}`}
               to={p.to}
-              className="flex items-center gap-4 border-b border-white/10 px-5 py-4 transition last:border-b-0 hover:bg-white/5"
+              className="flex items-center gap-4 border-b border-white/10 px-3 md:px-5 py-4 transition last:border-b-0 hover:bg-white/5"
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
                 <FaPen size={12} />

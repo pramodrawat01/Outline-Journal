@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function CTA() {
   return (
-    <section className="max-w-6xl mx-auto px-6 pb-24">
+    <section className="max-w-6xl mx-auto px-3 md:px-6 pb-24">
       <div
         className="relative rounded-2xl overflow-hidden px-8 py-16 md:py-20 text-center"
         style={{

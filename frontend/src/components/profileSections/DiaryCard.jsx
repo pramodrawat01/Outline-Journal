@@ -15,7 +15,7 @@ export default function DiaryCard({ diary: n }) {
       className="block overflow-hidden rounded-2xl border border-white/10 bg-[#141414] transition hover:border-white/25"
     >
       <div className="h-28" style={coverStyle(n.cover)} />
-      <div className="px-5 pb-5">
+      <div className="px-3 md:px-5 pb-5">
         <div className="-mt-6 mb-3 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-[#141414] text-2xl">
           {n.icon}
         </div>

@@ -135,7 +135,7 @@ export default function JournalWrite() {
           <EditorToolbar editor={editor} />
         </div>
 
-        <div className="p-6">
+        <div className="p-3 md:p-6">
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -149,7 +149,7 @@ export default function JournalWrite() {
           />
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 px-6 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 px-3 md:px-6 py-4">
           <div className="flex items-center gap-3">
             <span className="text-xs text-white/40">Date</span>
             <input

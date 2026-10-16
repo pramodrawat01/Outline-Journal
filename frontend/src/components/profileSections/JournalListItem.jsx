@@ -4,9 +4,9 @@ import { fmtDate, fmtShort } from '../../utils/challengeUtils';
 export default function JournalListItem({ journal: j, base = '/profile/journal' }) {
   return (
     <li className="relative">
-      <span className="absolute -left-[30px] top-2 h-3 w-3 rounded-full border-2 border-emerald-500 bg-[#0a0a0a]" />
+      <span className="absolute -left-[18px] md:-left-[30px] top-2 h-3 w-3 rounded-full border-2 border-emerald-500 bg-[#0a0a0a]" />
 
-      <div className="rounded-2xl border border-white/10 bg-[#141414] p-5">
+      <div className="rounded-2xl border border-white/10 bg-[#141414] px-3 py-5 md:p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs text-white/40">

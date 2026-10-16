@@ -37,7 +37,7 @@ const entries = [
 
 export default function ExplorePreview() {
   return (
-    <section id="explore" className="max-w-6xl mx-auto px-6 py-20">
+    <section id="explore" className="max-w-6xl mx-auto px-3 md:px-6 py-20">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
         <div className="max-w-xl">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4">

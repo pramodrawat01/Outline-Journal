@@ -24,7 +24,7 @@ const columns = [
 export default function Footer() {
   return (
     <footer className="border-t border-white/5 bg-[#0a0d0b]">
-      <div className="max-w-6xl mx-auto px-6 py-16">
+      <div className="max-w-6xl mx-auto px-3 md:px-6 py-16">
         <div className="grid grid-col-1 md:grid-cols-2 gap-10 mb-14">
           {/* brand + newsletter */}
           <div>

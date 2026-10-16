@@ -153,8 +153,8 @@ export default function ProfileLayout() {
         confirmText="Log out"
       />
 
-      <main className="mx-auto max-w-6xl px-6 pb-12 pt-16">
-       <nav className="mb-8 flex min-w-0 gap-1 overflow-x-auto overflow-y-hidden border-b border-white/10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="mx-auto max-w-6xl px-3 md:px-6 pb-12 pt-16">
+       <nav className="mb-3 md:mb-6 flex min-w-0 gap-1 overflow-x-auto overflow-y-hidden border-b border-white/10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map((t) => (
             <NavLink
               key={t.to}

@@ -83,7 +83,7 @@ export default function Hero() {
       <Header />
 
       {/* HERO CONTENT */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 pb-16 max-w-3xl mx-auto pt-20">
+      <div className="relative z-10 flex flex-col items-center text-center px-3 md:px-6 pb-16 max-w-3xl mx-auto pt-20 ">
         <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs text-gray-300 mb-4 ">
           <span>✍️</span> Now open — start your journal for free
         </div>

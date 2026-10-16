@@ -14,7 +14,7 @@ export default function ChallengeBanner({ challenge: c }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10" style={coverStyle(c.cover)}>
-      <div className="p-6 sm:p-8">
+      <div className="px-3 py-6 md:p-8">
         <p className="text-xs uppercase tracking-widest text-white/50">Current challenge</p>
         <h2 className="mt-2 text-2xl font-semibold">{c.title}</h2>
         <p className="mt-1 text-sm text-white/60">

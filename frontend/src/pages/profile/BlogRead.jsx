@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft, FaRegEdit, FaTrash } from 'react-icons/fa';
 import { deleteBlog, getMyBlog } from '../../services/blogService';
 import JournalReader from '../../components/editor/JournalReader';
+import ConfirmModal from '../../components/common/ConfirmModal';
 
 const BACK = '/profile';
 
@@ -12,6 +13,8 @@ export default function BlogRead() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -24,12 +27,14 @@ export default function BlogRead() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!window.confirm('Delete this blog? This cannot be undone.')) return;
+    setDeleting(true)
     try {
       await deleteBlog(id);
       navigate(BACK, { replace: true });
     } catch {
       setError('Could not delete this blog.');
+      setDeleting(false)
+      setConfirmOpen(false)
     }
   };
 
@@ -54,11 +59,21 @@ export default function BlogRead() {
 
   return (
     <div className="space-y-6">
-      <Link to={BACK} className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white">
-        <FaArrowLeft size={11} /> My profile
-      </Link>
+      <div className='flex justify-between items-center'>
+        <Link to={BACK} className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white">
+          <FaArrowLeft size={11} /> My profile
+          
+        </Link>
+        <Link
+          to={`/edit-blog/${blog._id}`}
+          className="flex items-center gap-2 rounded-full border border-white/10 px-5 py-1.5 md:py-2.5 text-xs md:text-sm font-medium  text-white/50 hover:text-white transition hover:bg-white/5"
+        >
+          <FaRegEdit size={11} /> Edit
+        </Link>
 
-      <article className="rounded-2xl border border-white/10 bg-[#141414] p-6 sm:p-8">
+      </div>
+
+      <article className="rounded-2xl border border-white/10 bg-[#141414] py-6 px-3 md:p-8">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="text-xs text-white/40">
@@ -80,16 +95,10 @@ export default function BlogRead() {
         </div>
       </article>
 
-      <div className="flex items-center justify-between">
-        <Link
-          to={`/edit-blog/${blog._id}`}
-          className="flex items-center gap-2 rounded-full border border-white/10 px-5 py-2.5 text-sm font-medium text-white/80 transition hover:bg-white/5"
-        >
-          <FaRegEdit size={13} /> Edit
-        </Link>
+      <div className="flex items-center justify-end">
         
         <button
-          onClick={handleDelete}
+          onClick={() => setConfirmOpen(true)}
           className="flex items-center gap-2 text-xs text-white/30 transition hover:text-red-400"
         >
           <FaTrash size={11} /> Delete
@@ -97,6 +106,17 @@ export default function BlogRead() {
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={handleDelete}
+        loading={deleting}
+        variant="danger"
+        title="Delete this blog?"
+        description="It will be removed for good, including from the public feed. This cannot be undone."
+        confirmText="Delete"
+      />
     </div>
   );
 }

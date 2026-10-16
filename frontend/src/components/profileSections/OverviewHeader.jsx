@@ -9,12 +9,12 @@ export default function OverviewHeader({ user }) {
           <h1 className="text-3xl font-semibold">{user.fullName}</h1>
           <span className="text-sm text-white/40">@{user.username}</span>
         </div>
-        <Link
+        {/* <Link
           to="/profile/edit"
           className="flex shrink-0 items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-medium text-white/80 hover:bg-white/5"
         >
           <FaRegEdit /> Edit profile
-        </Link>
+        </Link> */}
       </div>
 
       {user.bio && <p className="mt-3 text-sm text-white/60">{user.bio}</p>}

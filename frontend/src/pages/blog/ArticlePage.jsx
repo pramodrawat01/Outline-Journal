@@ -94,7 +94,8 @@ export default function ArticlePage({ kind }) {
     <article className="mx-auto max-w-4xl relative "> 
       <div className="flex items-center justify-between gap-3">
         <Link to={backTo} className="inline-flex items-center gap-2 text-xs text-white/50 hover:text-white">
-          <FaArrowLeft size={10} /> {diary ? diary.title : 'All stories'}
+          <FaArrowLeft size={10} />
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">{label}</p>
         </Link>
         <button
           onClick={share}
@@ -104,7 +105,6 @@ export default function ArticlePage({ kind }) {
         </button>
       </div>
 
-      <p className="mt-8 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">{label}</p>
       <h1 className="mt-3 break-words text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
         {article.title || 'Untitled'}
       </h1>

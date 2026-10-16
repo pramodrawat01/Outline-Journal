@@ -29,7 +29,7 @@ export default function Journal() {
         </div>
         <Link
           to="/profile/journal/new"
-          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400"
+          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2 md:py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400"
         >
           <FaPlus size={11} /> Write journal
         </Link>
@@ -44,7 +44,7 @@ export default function Journal() {
           No journals yet. Write your first one, as many as you like each day.
         </div>
       ) : (
-        <ol className="relative space-y-5 border-l border-white/10 pl-6">
+        <ol className="relative space-y-5 border-l border-white/10 pl-3 md:pl-6">
           {journals.map((j) => (
             <JournalListItem key={j._id} journal={j} />
           ))}

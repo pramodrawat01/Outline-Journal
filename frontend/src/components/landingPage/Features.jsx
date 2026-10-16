@@ -3,7 +3,7 @@ import { Play } from "lucide-react";
 
 export default function Features() {
   return (
-    <section className="max-w-6xl mx-auto px-6 py-20">
+    <section className="max-w-6xl mx-auto px-3 md:px-6 py-20">
       <div className="text-center max-w-xl mx-auto mb-14">
         <h2 className="text-3xl md:text-4xl font-semibold mb-4">
           Everything you need to keep writing

@@ -11,7 +11,7 @@ export default function TrackerCard({ tracker: t }) {
   return (
     <Link
       to={`/profile/tracker/${t._id}`}
-      className="block rounded-2xl border border-white/10 bg-[#141414] p-5 transition hover:border-white/25"
+      className="block rounded-2xl border border-white/10 bg-[#141414] px-3 py-4 md:p-5 transition hover:border-white/25"
     >
       <div className="flex items-start justify-between gap-3">
         <h3 className="min-w-0 break-words font-semibold">{t.title}</h3>

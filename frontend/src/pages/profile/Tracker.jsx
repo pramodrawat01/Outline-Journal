@@ -33,7 +33,7 @@ export default function Tracker() {
         </div>
         <button
           onClick={() => setShowCreate(true)}
-          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400"
+          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2 md:py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400"
         >
           <FaPlus size={11} /> New tracker
         </button>

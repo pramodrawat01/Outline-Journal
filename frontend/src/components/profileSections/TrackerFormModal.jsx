@@ -53,7 +53,7 @@ export default function TrackerFormModal({ tracker, onClose, onSaved }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto bg-black/70 px-4 py-6 backdrop-blur-sm"
+      className="fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto bg-black/70 px-3 py-6 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.form
@@ -62,7 +62,7 @@ export default function TrackerFormModal({ tracker, onClose, onSaved }) {
         initial={{ opacity: 0, y: 12, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.18 }}
-        className="relative my-auto w-full max-w-lg space-y-5 rounded-2xl border border-white/10 bg-[#111511] p-8 text-white"
+        className="relative my-auto w-full max-w-lg space-y-5 rounded-2xl border border-white/10 bg-[#111511] px-3 py-6 md:p-8 text-white"
       >
         <button
           type="button"

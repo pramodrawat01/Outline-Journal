@@ -39,7 +39,7 @@ export default function DiaryModal({ diary, onClose, onSaved }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto bg-black/70 px-4 py-6 backdrop-blur-sm"
+      className="fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto bg-black/70 px-3 py-6 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.form
@@ -48,7 +48,7 @@ export default function DiaryModal({ diary, onClose, onSaved }) {
         initial={{ opacity: 0, y: 12, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.18 }}
-        className="relative my-auto w-full max-w-lg space-y-5 rounded-2xl border border-white/10 bg-[#111511] p-8 text-white"
+        className="relative my-auto w-full max-w-lg space-y-5 rounded-2xl border border-white/10 bg-[#111511] px-3 py-6 md:p-8 text-white"
       >
         <button
           type="button"
@@ -144,14 +144,14 @@ export default function DiaryModal({ diary, onClose, onSaved }) {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 rounded-full border border-white/10 bg-white/5 py-2.5 text-sm font-medium transition-colors hover:bg-white/10"
+            className="flex-1 rounded-full border border-white/10 bg-white/5 py-2 md:py-2.5 text-sm font-medium transition-colors hover:bg-white/10"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={!form.title.trim() || saving}
-            className="flex-1 rounded-full bg-emerald-500 py-2.5 text-sm font-medium text-black transition-colors hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex-1 rounded-full bg-emerald-500 py-2 md:py-2.5 text-sm font-medium text-black transition-colors hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? 'Saving…' : isEdit ? 'Save changes' : 'Create diary'}
           </button>

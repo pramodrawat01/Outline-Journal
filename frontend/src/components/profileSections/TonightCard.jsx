@@ -6,7 +6,7 @@ import { todayStr } from '../../utils/challengeUtils';
 import DayChecklist from './DayChecklist';
 
 const Shell = ({ children }) => (
-  <div className="rounded-2xl border border-white/10 bg-[#141414] p-5">{children}</div>
+  <div className="rounded-2xl border border-white/10 bg-[#141414] p-3 py-5 md:p-5">{children}</div>
 );
 
 export default function TonightCard() {
@@ -38,7 +38,7 @@ export default function TonightCard() {
 
   if (trackers.length === 0) {
     return (
-      <Shell>
+      <Shell> 
         <h2 className="text-base font-semibold">Tonight's checklist</h2>
         <p className="mt-4 text-sm text-white/40">
           Track the habits you want to tick off every night, like applications sent or effort given.

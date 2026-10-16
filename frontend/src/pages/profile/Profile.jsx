@@ -126,7 +126,7 @@ export default function Profile() {
         //         />
         //       ))}
         // </div>
-                <div className="space-y-4">
+                <div className="space-y-4 ">
           {kind === 'blogs' &&
             visible.map((b) => (
               <ProfileEntryRow

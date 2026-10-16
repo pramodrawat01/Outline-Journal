@@ -19,7 +19,7 @@ export default function ChallengeCard({ challenge: c }) {
       className="block overflow-hidden rounded-2xl border border-white/10 bg-[#141414] transition hover:border-white/25"
     >
       <div className="h-24" style={coverStyle(c.cover)} />
-      <div className="p-5">
+      <div className="px-3 py-5  md:p-5">
         <div className="flex items-start justify-between gap-3">
           <h3 className="min-w-0 break-words font-semibold">{c.title}</h3>
           <span className={`shrink-0 rounded-full px-3 py-1 text-xs capitalize ${STATUS_STYLE[status]}`}>

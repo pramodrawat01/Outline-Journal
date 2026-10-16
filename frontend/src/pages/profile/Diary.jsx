@@ -32,7 +32,7 @@ export default function Diary() {
         </div>
         <button
           onClick={() => setShowCreate(true)}
-          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400"
+          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2 md:py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400"
         >
           <FaPlus size={11} /> New diary
         </button>
@@ -43,7 +43,7 @@ export default function Diary() {
       ) : error ? (
         <p className="text-sm text-red-400">{error}</p>
       ) : diaries.length === 0 ? (
-        <div className="rounded-2xl border border-white/10 bg-[#141414] px-5 py-10 text-center text-sm text-white/40">
+        <div className="rounded-2xl border border-white/10 bg-[#141414] px-3 md:px-5 py-10 text-center text-sm text-white/40">
           No diaries yet. Start one for fitness, books, a project, anything you want to write about every day.
         </div>
       ) : (

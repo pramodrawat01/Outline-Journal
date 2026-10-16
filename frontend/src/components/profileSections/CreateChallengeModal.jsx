@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import Field, { inputCls } from '../onboarding/Field';
 import Segmented from '../onboarding/Segmented';
 import { createChallenge } from '../../services/challengeService';
-import { COVERS, addDays, coverStyle, todayStr } from '../../utils/challengeUtils';
+import { COVERS, addDays, swatchStyle, coverStyle, todayStr } from '../../utils/challengeUtils';
 
 export default function CreateChallengeModal({ onClose, onCreated }) {
   const { user } = useAuth();
@@ -47,7 +47,7 @@ export default function CreateChallengeModal({ onClose, onCreated }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 px-3 backdrop-blur-sm "
       onClick={onClose}
     >
       <motion.form
@@ -56,7 +56,7 @@ export default function CreateChallengeModal({ onClose, onCreated }) {
         initial={{ opacity: 0, y: 12, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.18 }}
-        className="relative w-full max-w-lg space-y-5 rounded-2xl border border-white/10 bg-[#111511] p-8 text-white"
+        className="relative w-full max-w-lg space-y-5 rounded-2xl border border-white/10 bg-[#111511] px-3 py-6 md:p-8 text-white"
       >
         <button
           type="button"
@@ -120,7 +120,7 @@ export default function CreateChallengeModal({ onClose, onCreated }) {
           />
         </Field>
 
-        <Field label="Cover">
+        {/* <Field label="Cover">
           <div className="flex gap-3">
             {Object.keys(COVERS).map((key) => (
               <button
@@ -131,11 +131,11 @@ export default function CreateChallengeModal({ onClose, onCreated }) {
                 className={`h-9 w-9 rounded-full border-2 transition ${
                   form.cover === key ? 'border-white' : 'border-transparent opacity-70 hover:opacity-100'
                 }`}
-                style={coverStyle(key)}
+                style={swatchStyle(key)}
               />
             ))}
           </div>
-        </Field>
+        </Field> */}
 
         {error && <p className="text-sm text-red-400">{error}</p>}
 

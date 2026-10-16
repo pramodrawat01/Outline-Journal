@@ -5,6 +5,7 @@ import { deleteChallenge, getChallengeJournals } from '../../services/challengeS
 import { coverStyle, dayNumber, fmtDate, getStatus, totalDays } from '../../utils/challengeUtils';
 import JournalTimelineItem from '../../components/profileSections/JournalTimelineItem';
 import AddJournalModal from '../../components/profileSections/AddJournalModal';
+import ConfirmModal from '../../components/common/ConfirmModal';
 
 const STATUS_STYLE = {
   ongoing: 'bg-emerald-500/10 text-emerald-400',
@@ -20,6 +21,9 @@ export default function ChallengeDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showAdd, setShowAdd] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
 
   useEffect(() => {
     getChallengeJournals(id)
@@ -34,12 +38,15 @@ export default function ChallengeDetail() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!window.confirm('Delete this challenge and all of its journals? This cannot be undone.')) return;
+    setDeleting(true)
+    setDeleteError('')
     try {
       await deleteChallenge(id);
       navigate('/profile/challenges', { replace: true });
     } catch {
-      setError('Could not delete the challenge.');
+      setDeleteError('Could not delete the challenge.');
+      setDeleting(false);
+      setConfirmOpen(false);
     }
   };
 
@@ -69,7 +76,7 @@ export default function ChallengeDetail() {
       </Link>
 
       <div className="overflow-hidden rounded-2xl border border-white/10" style={coverStyle(challenge.cover)}>
-        <div className="p-6 sm:p-8">
+        <div className="px-3 p-6 sm:p-8">
           <div className="flex items-start justify-between gap-3">
             <h1 className="min-w-0 break-words text-2xl font-semibold">{challenge.title}</h1>
             <span className={`shrink-0 rounded-full px-3 py-1 text-xs capitalize ${STATUS_STYLE[status]}`}>
@@ -91,17 +98,18 @@ export default function ChallengeDetail() {
         <button
           onClick={() => setShowAdd(true)}
           disabled={status === 'upcoming'}
-          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2 sm:py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <FaPlus size={11} /> Add journal
         </button>
         <button
-          onClick={handleDelete}
+          onClick={() => setConfirmOpen(true)}
           className="flex items-center gap-2 text-xs text-white/30 transition hover:text-red-400"
         >
           <FaTrash size={11} /> Delete challenge
         </button>
       </div>
+      {deleteError && <p className="text-sm text-red-400">{deleteError}</p>}
 
       {status === 'upcoming' && (
         <p className="text-sm text-white/40">This challenge starts on {fmtDate(challenge.startDate)}.</p>
@@ -122,6 +130,17 @@ export default function ChallengeDetail() {
       {showAdd && (
         <AddJournalModal challenge={challenge} journals={journals} onClose={() => setShowAdd(false)} />
       )}
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={handleDelete}
+        loading={deleting}
+        variant="danger"
+        title="Delete this challenge?"
+        description="Every journal written in it will be deleted too. This cannot be undone."
+        confirmText="Delete"
+      />
     </div>
   );
 }
