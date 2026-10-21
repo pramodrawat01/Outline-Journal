@@ -424,7 +424,7 @@ function LoginFields() {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
       <div className="text-center mb-2">
-        <h2 className="text-2xl font-semibold mb-1">Welcome back  Pramod#123@123</h2>
+        <h2 className="text-2xl font-semibold mb-1">Welcome back</h2>
         <p className="text-gray-400 text-sm">Log in to keep writing your entries.</p>
       </div>
 
