@@ -120,3 +120,28 @@ html {
   font-weight: 600;
   color: #fff;
 }
+
+
+/* links and images inside the editor and the reading pages */
+.tiptap-editor .ProseMirror a {
+  color: #34d399;
+  text-decoration: underline;
+  text-decoration-color: rgba(52, 211, 153, 0.45);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+.tiptap-editor .ProseMirror a:hover {
+  color: #6ee7b7;
+  text-decoration-color: currentColor;
+}
+.tiptap-editor .ProseMirror img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  margin: 1.25rem 0;
+}
+.tiptap-editor .ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid #34d399;
+  outline-offset: 2px;
+}

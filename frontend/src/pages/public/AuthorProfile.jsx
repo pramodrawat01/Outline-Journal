@@ -69,9 +69,9 @@ export default function AuthorProfile() {
     : '';
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[400px_1fr] relative">
-      <aside className="lg:border-r lg:border-white/10 lg:pr-8">
-        <div className="lg:sticky lg:top-24">
+    <div className=" grid gap-10 lg:grid-cols-[400px_1fr] relative">
+      <aside className=" lg:border-white/10 lg:pr-8">
+        <div className="lg:sticky lg:top-24 ">
           <ProfileInfoPanel user={user}>
             {joined && <p className="text-xs text-white/30">Joined {joined}</p>}
           </ProfileInfoPanel>
@@ -116,7 +116,7 @@ export default function AuthorProfile() {
                   title={b.title}
                   excerpt={b.excerpt}
                   meta={`${b.readTime} min read`}
-                  thumb={<EntryThumb id={b._id} icon="📝" />}
+                  thumb={<EntryThumb icon="📝" image={b.coverImage} />}
                 />
               ))}
 

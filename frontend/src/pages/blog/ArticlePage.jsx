@@ -7,7 +7,7 @@ import {
   getPublicDiaryEntry,
   getPublicJournal,
 } from '../../services/publicService';
-import { fmtLongDate, itemPath, KIND_LABEL } from '../../utils/publicUtils';
+import { fmtLongDate, itemPath, KIND_LABEL,imgT } from '../../utils/publicUtils';
 import JournalReader from '../../components/editor/JournalReader';
 import Avatar from '../../components/public/Avatar';
 
@@ -125,6 +125,14 @@ export default function ArticlePage({ kind }) {
           </p>
         </div>
       </div>
+
+      {article.coverImage && (
+        <img
+          src={imgT(article.coverImage, 'c_limit,w_1400')}
+          alt=""
+          className="mt-8 max-h-[28rem] w-full rounded-2xl border border-white/10 object-cover"
+        />
+      )}
 
       <div className="public-article mt-8">
         {article.content ? (

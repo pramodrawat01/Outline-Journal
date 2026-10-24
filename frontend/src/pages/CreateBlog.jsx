@@ -57,14 +57,14 @@
 //   const navigate = useNavigate();
 //   const location = useLocation();
 //   const fileInputRef = useRef(null);
-  
+
 //   // Came from the CreateEntryModal — falls back gracefully if visited directly
 //   const { title: initialTitle = "", entryType = "blog" } = location.state || {};
 //   const [title, setTitle] = useState(initialTitle);
 //   const [visibility, setVisibility] = useState(entryType === "journal" ? "private" : "public");
 // const [publishing, setPublishing] = useState(false);
 // const [error, setError] = useState("");
-  
+
 //   const editor = useEditor({
 //     extensions: [
 //       StarterKit.configure({
@@ -294,18 +294,17 @@
 //   );
 // }
 
-
-
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEditor, EditorContent } from '@tiptap/react';
-import { FaArrowLeft } from 'react-icons/fa';
-import { createBlog, getMyBlog, updateBlog } from '../services/blogService';
-import { createPersonalJournal } from '../services/journalService';
-import { todayStr } from '../utils/challengeUtils';
-import { getExtensions } from '../components/editor/editorExtensions';
-import EditorToolbar from '../components/editor/EditorToolbar';
-import Segmented from '../components/onboarding/Segmented';
+import { useEffect, useState, useRef } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEditor, EditorContent } from "@tiptap/react";
+import { FaArrowLeft, FaImage } from "react-icons/fa";
+import { createBlog, getMyBlog, updateBlog } from "../services/blogService";
+import { createPersonalJournal } from "../services/journalService";
+import { todayStr } from "../utils/challengeUtils";
+import { getExtensions } from "../components/editor/editorExtensions";
+import EditorToolbar from "../components/editor/EditorToolbar";
+import Segmented from "../components/onboarding/Segmented";
+import { uploadImage } from "../services/uploadService";
 
 export default function CreateBlog() {
   const navigate = useNavigate();
@@ -314,18 +313,25 @@ export default function CreateBlog() {
   const isEdit = Boolean(id);
 
   // Came from CreateEntryModal; falls back gracefully if visited directly
-  const { title: initialTitle = '', entryType = 'blog' } = location.state || {};
+  const { title: initialTitle = "", entryType = "blog" } = location.state || {};
 
   const [title, setTitle] = useState(initialTitle);
-  const [visibility, setVisibility] = useState(entryType === 'journal' ? 'private' : 'public');
+  const [visibility, setVisibility] = useState(
+    entryType === "journal" ? "private" : "public",
+  );
   const [loading, setLoading] = useState(isEdit);
-  const [loadError, setLoadError] = useState('');
+  const [loadError, setLoadError] = useState("");
   const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState('');
 
+  const [coverImage, setCoverImage] = useState("");
+  const [coverUploading, setCoverUploading] = useState(false);
+  const [coverError, setCoverError] = useState("");
+  const coverInput = useRef(null);
+
   const editor = useEditor({
-    extensions: getExtensions('Start writing your entry...'),
-    content: '',
+    extensions: getExtensions("Start writing your entry..."),
+    content: "",
   });
 
   // edit mode: load the saved blog into the editor
@@ -337,10 +343,16 @@ export default function CreateBlog() {
         if (cancelled) return;
         setTitle(b.title);
         setVisibility(b.visibility);
+        setCoverImage(b.coverImage || "");
         if (b.content) editor.commands.setContent(b.content);
       })
       .catch((err) => {
-        if (!cancelled) setLoadError(err.response?.status === 404 ? 'Blog not found.' : 'Could not load this blog.');
+        if (!cancelled)
+          setLoadError(
+            err.response?.status === 404
+              ? "Blog not found."
+              : "Could not load this blog.",
+          );
       })
       .finally(() => !cancelled && setLoading(false));
     return () => {
@@ -352,7 +364,10 @@ export default function CreateBlog() {
     return (
       <div className="min-h-screen bg-[#0a0d0b] px-6 py-24 text-center text-white">
         <p className="text-sm text-white/60">{loadError}</p>
-        <Link to="/profile" className="mt-4 inline-block text-sm text-emerald-400 hover:text-emerald-300">
+        <Link
+          to="/profile"
+          className="mt-4 inline-block text-sm text-emerald-400 hover:text-emerald-300"
+        >
           ← Back to profile
         </Link>
       </div>
@@ -361,45 +376,85 @@ export default function CreateBlog() {
 
   if (!editor || loading) {
     return (
-      <div className="min-h-screen bg-[#0a0d0b] px-6 py-24 text-center text-sm text-white/40">Loading…</div>
+      <div className="min-h-screen bg-[#0a0d0b] px-6 py-24 text-center text-sm text-white/40">
+        Loading…
+      </div>
     );
   }
 
   const handlePublish = async () => {
-    const needsTitle = isEdit || entryType !== 'journal';
+    const needsTitle = isEdit || entryType !== "journal";
     if (needsTitle && !title.trim()) {
-      setError('Add a title first.');
+      setError("Add a title first.");
       return;
     }
     if (editor.isEmpty && !title.trim()) {
-      setError('Write something before publishing.');
+      setError("Write something before publishing.");
       return;
     }
 
     setPublishing(true);
-    setError('');
+    setError("");
     try {
       const content = editor.getJSON();
 
       if (isEdit) {
-        await updateBlog(id, { title, content, visibility });
+        await updateBlog(id, { title, content, visibility, coverImage });
         navigate(`/profile/blogs/${id}`, { replace: true });
-      } else if (entryType === 'journal') {
-        const j = await createPersonalJournal({ title, content, entryDate: todayStr(), visibility });
+      } else if (entryType === "journal") {
+        const j = await createPersonalJournal({
+          title,
+          content,
+          entryDate: todayStr(),
+          visibility,
+        });
         navigate(`/profile/journal/${j._id}`, { replace: true });
       } else {
-        const b = await createBlog({ title, content, visibility });
+        const b = await createBlog({ title, content, visibility, coverImage });
         navigate(`/profile/blogs/${b._id}`, { replace: true });
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Could not save. Try again.');
+      setError(err.response?.data?.message || "Could not save. Try again.");
       setPublishing(false);
     }
   };
 
-  const goBack = () => (isEdit ? navigate(`/profile/blogs/${id}`) : navigate(-1));
+  const showCover = isEdit || entryType !== "journal";
 
-  const label = isEdit ? 'Edit Blog' : entryType === 'journal' ? 'Journal Entry' : 'Blog Post';
+  const handleCover = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!/^image\/(jpeg|png|webp|gif)$/.test(file.type)) {
+      setCoverError("Choose a JPG, PNG, WebP or GIF image.");
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setCoverError("Images must be 8 MB or smaller.");
+      return;
+    }
+    setCoverUploading(true);
+    setCoverError("");
+    try {
+      const { url } = await uploadImage(file);
+      setCoverImage(url);
+    } catch (err) {
+      setCoverError(
+        err.response?.data?.message || "Could not upload the image.",
+      );
+    } finally {
+      setCoverUploading(false);
+    }
+  };
+
+  const goBack = () =>
+    isEdit ? navigate(`/profile/blogs/${id}`) : navigate(-1);
+
+  const label = isEdit
+    ? "Edit Blog"
+    : entryType === "journal"
+      ? "Journal Entry"
+      : "Blog Post";
 
   return (
     <div className="min-h-screen w-full bg-[#0a0d0b] font-sans text-white antialiased">
@@ -413,23 +468,31 @@ export default function CreateBlog() {
             Back
           </button>
 
-          <span className="hidden text-xs uppercase tracking-widest text-gray-500 sm:block">{label}</span>
+          <span className="hidden text-xs uppercase tracking-widest text-gray-500 sm:block">
+            {label}
+          </span>
 
           <div className="flex items-center gap-3">
             <Segmented
               value={visibility}
               onChange={setVisibility}
               options={[
-                { value: 'public', label: 'Public' },
-                { value: 'private', label: 'Private' },
+                { value: "public", label: "Public" },
+                { value: "private", label: "Private" },
               ]}
             />
             <button
               onClick={handlePublish}
-              disabled={publishing}
+              disabled={publishing || coverUploading}
               className="rounded-full bg-emerald-500 px-5 py-2 text-sm font-medium text-black transition-colors hover:bg-emerald-400 disabled:opacity-50"
             >
-              {publishing ? (isEdit ? 'Saving…' : 'Publishing…') : isEdit ? 'Save changes' : 'Publish'}
+              {publishing
+                ? isEdit
+                  ? "Saving…"
+                  : "Publishing…"
+                : isEdit
+                  ? "Save changes"
+                  : "Publish"}
             </button>
           </div>
         </div>
@@ -441,8 +504,58 @@ export default function CreateBlog() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-4xl px-6 py-10">
+      <div className=" mx-auto max-w-4xl px-6 py-10">
         {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
+        {showCover && (
+          <div className="mb-8">
+            {coverImage ? (
+              <div className="relative overflow-hidden rounded-2xl border border-white/10">
+                <img
+                  src={coverImage}
+                  alt=""
+                  className="h-56 w-full object-cover sm:h-72"
+                />
+                <div className="absolute bottom-3 right-3 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => coverInput.current?.click()}
+                    disabled={coverUploading}
+                    className="rounded-full bg-black/70 px-4 py-1.5 text-xs font-medium text-white backdrop-blur transition hover:bg-black/90 disabled:opacity-50"
+                  >
+                    {coverUploading ? "Uploading…" : "Change"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCoverImage("")}
+                    className="rounded-full bg-black/70 px-4 py-1.5 text-xs font-medium text-white backdrop-blur transition hover:bg-black/90 hover:text-red-400"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => coverInput.current?.click()}
+                disabled={coverUploading}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-white/15 py-8 text-sm text-white/50 transition hover:border-white/30 hover:text-white disabled:opacity-50"
+              >
+                <FaImage size={14} />{" "}
+                {coverUploading ? "Uploading…" : "Add cover image"}
+              </button>
+            )}
+            <input
+              ref={coverInput}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              onChange={handleCover}
+              className="hidden"
+            />
+            {coverError && (
+              <p className="mt-2 text-sm text-red-400">{coverError}</p>
+            )}
+          </div>
+        )}
 
         <input
           type="text"
@@ -450,7 +563,7 @@ export default function CreateBlog() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Untitled entry"
           maxLength={150}
-          className="mb-8 w-full bg-transparent text-4xl font-semibold placeholder:text-gray-600 focus:outline-none"
+          className="mb-8 h-12.5  w-full bg-transparent text-4xl font-semibold placeholder:text-gray-600 focus:outline-none"
         />
 
         <EditorContent editor={editor} className="tiptap-editor" />

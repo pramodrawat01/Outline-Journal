@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Blog from '../models/Blog.js';
 import { makeExcerpt, readTimeOf } from '../utils/excerpt.js';
+import { cleanCover } from '../utils/image.js';
 
 const notFound = (res) => res.status(404).json({ message: 'Blog not found' });
 
@@ -39,11 +40,15 @@ export const createBlog = async (req, res) => {
     if (content != null && typeof content !== 'object') {
       return res.status(400).json({ message: 'Invalid content' });
     }
+    const coverImage = cleanCover(req.body.coverImage);
+      if (coverImage === null) return res.status(400).json({ message: 'Invalid cover image' });
+
 
     const blog = await Blog.create({
       user: req.user._id,
       title: t,
       content: content ?? null,
+      coverImage,
       excerpt: makeExcerpt(content),
       readTime: readTimeOf(content),
       visibility: visibility === 'private' ? 'private' : 'public',
@@ -79,6 +84,8 @@ export const updateBlog = async (req, res) => {
     if (content != null && typeof content !== 'object') {
       return res.status(400).json({ message: 'Invalid content' });
     }
+    const coverImage = cleanCover(req.body.coverImage);
+    if (coverImage === null) return res.status(400).json({ message: 'Invalid cover image' });
 
     const blog = await Blog.findOneAndUpdate(
       { _id: req.params.id, user: req.user._id },
@@ -89,6 +96,8 @@ export const updateBlog = async (req, res) => {
           excerpt: makeExcerpt(content),
           readTime: readTimeOf(content),
           visibility: visibility === 'private' ? 'private' : 'public',
+          // only touch the cover when the request actually sends one
+          ...('coverImage' in req.body ? { coverImage } : {}),
         },
       },
       { new: true }

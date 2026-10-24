@@ -137,7 +137,7 @@ export default function Profile() {
                 excerpt={b.excerpt}
                 visibility={b.visibility}
                 meta={`${b.readTime} min read`}
-                thumb={<EntryThumb id={b._id} icon="📝" />}
+                thumb={<EntryThumb icon="📝" image={b.coverImage} />}
               />
             ))}
 

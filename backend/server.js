@@ -12,6 +12,7 @@ import diaryRoutes from './routes/diaryRoutes.js';
 import publicRoutes from './routes/publicRoutes.js'
 import trackerRoutes from './routes/trackerRoutes.js'
 import statsRoutes from './routes/statsRoutes.js'
+import uploadRoutes from './routes/uploadRoutes.js'
 
 dotenv.config()
 
@@ -20,7 +21,7 @@ const app = express()
 const PORT = process.env.PORT || 5000
 
 // middlewares
-app.use(express.json())
+app.use(express.json({ limit : '1mb'}))
 app.use(cookieParser())
 app.use(
     cors({
@@ -39,6 +40,7 @@ app.use('/api/diaries', diaryRoutes);
 app.use('/api/public', publicRoutes)
 app.use('/api/trackers', trackerRoutes)
 app.use('/api/stats', statsRoutes)
+app.use('/api/uploads', uploadRoutes)
 
 
 app.get("/", (req, res) => {

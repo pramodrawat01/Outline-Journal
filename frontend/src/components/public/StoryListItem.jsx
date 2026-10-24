@@ -80,7 +80,7 @@
 
 import { Link } from "react-router-dom";
 import AuthorName from "./AuthorName";
-import { KIND_LABEL, fmtShortDate, itemMeta, itemPath } from "../../utils/publicUtils";
+import { KIND_LABEL, fmtShortDate, itemMeta, itemPath, imgT } from "../../utils/publicUtils";
 
 export default function StoryListItem({ item }) {
   const title = item.title || "Untitled";
@@ -125,6 +125,14 @@ export default function StoryListItem({ item }) {
             </>
           )}
         </div>
+                {item.coverImage && (
+          <img
+            src={imgT(item.coverImage, "c_fill,w_160,h_112")}
+            alt=""
+            loading="lazy"
+            className="h-14 w-20 shrink-0 rounded-lg border border-white/10 object-cover"
+          />
+        )}
       </div>
 
       <div className="mt-2 flex items-center gap-2 text-[11px] text-white/40 sm:hidden">

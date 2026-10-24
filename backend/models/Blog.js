@@ -6,6 +6,7 @@ const blogSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true, maxlength: 150 },
     content: { type: mongoose.Schema.Types.Mixed, default: null }, // Tiptap JSON
     excerpt: { type: String, default: '' },
+    coverImage : {type : String, default : ''}, 
     readTime: { type: Number, default: 1 },
     visibility: { type: String, enum: ['public', 'private'], default: 'public' },
   },

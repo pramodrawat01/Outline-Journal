@@ -33,3 +33,7 @@ export const initials = (name = '') =>
     .slice(0, 2)
     .map((w) => w[0].toUpperCase())
     .join('') || '?';
+
+// asks Cloudinary for a resized copy, e.g. imgT(url, 'c_fill,w_240,h_240')
+export const imgT = (url, transform) =>
+  url && url.includes('/upload/') ? url.replace('/upload/', `/upload/${transform}/`) : url;

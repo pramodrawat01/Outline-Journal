@@ -143,6 +143,7 @@ const toItem = (kind, d, extra = {}) => ({
   readTime: d.readTime || null,
   icon: d.icon,
   cover: d.cover,
+  coverImage: kind === 'blog' ? d.coverImage || '' : '',
   ...extra,
   author: authorOf(d.user),
 });
@@ -252,6 +253,7 @@ export const getPublicBlog = async (req, res) => {
         content: blog.content,
         date: blog.createdAt,
         readTime: blog.readTime,
+        coverImage: blog.coverImage || '',
       },
       author: shapeAuthor(author),
       diary: null,

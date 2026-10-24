@@ -4,6 +4,7 @@ import { FaArrowLeft, FaRegEdit, FaTrash } from 'react-icons/fa';
 import { deleteBlog, getMyBlog } from '../../services/blogService';
 import JournalReader from '../../components/editor/JournalReader';
 import ConfirmModal from '../../components/common/ConfirmModal';
+import { imgT } from '../../utils/publicUtils';
 
 const BACK = '/profile';
 
@@ -73,7 +74,15 @@ export default function BlogRead() {
 
       </div>
 
-      <article className="rounded-2xl border border-white/10 bg-[#141414] py-6 px-3 md:p-8">
+       {blog.coverImage && (
+        <img
+          src={imgT(blog.coverImage, 'c_limit,w_1400')}
+          alt=""
+          className="max-h-96 w-full rounded-2xl border border-white/10 object-cover"
+        />
+      )}
+
+      <article className=" rounded-2xl border border-white/10 bg-[#141414] py-6 px-3 md:p-8">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="text-xs text-white/40">
