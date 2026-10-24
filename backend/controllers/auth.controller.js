@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import { generateTokenAndSetCookie } from "../utils/Generatetoken.js";
+import { generateTokenAndSetCookie, clearAuthCookie } from "../utils/Generatetoken.js";
 import { sanitize } from "../utils/sanatizeUser.js";
 
 /* --------------------------- SIGNUP --------------------------- */
@@ -48,12 +48,7 @@ export async function signup(req, res) {
     generateTokenAndSetCookie(res, user._id);
 
     return res.status(201).json({
-      user: {
-        id: user._id,
-        fullName: user.fullName,
-        username: user.username,
-        email: user.email,
-      },
+      user: sanitize(user),
     });
   } catch (error) {
     // Mongoose validation errors (e.g. bad username format) land here
@@ -103,13 +98,14 @@ export async function login(req, res) {
 
 /* ---------------------------- LOGOUT ---------------------------- */
 export async function logout(req, res) {
-  res.clearCookie("token", { path: "/" });
+  clearAuthCookie(res)
   return res.status(200).json({ message: "Logged out successfully" });
 }
 
 /* ----------------------------- ME ----------------------------- */
 // Returns the currently logged-in user; used on app load to restore a session.
 export async function getMe(req, res) {
+  res.set("Cache-Control", "no-store");
   // return res.status(200).json({ user: sanitize(req.user)  });
   const user = await User.findById(req.user._id);
   if (!user) return res.status(404).json({ message: "User not found" });
